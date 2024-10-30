@@ -26,7 +26,7 @@ public interface AppleIdAppleComRequestApi {
             List<Key> keys
     ) {
         // Key record 정의
-        record Key(
+        public record Key(
                 @SerializedName("kty") @Expose
                 @Valid @NotNull @org.jetbrains.annotations.NotNull
                 String kty,

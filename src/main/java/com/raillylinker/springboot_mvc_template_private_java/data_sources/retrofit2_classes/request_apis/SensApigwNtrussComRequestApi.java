@@ -77,7 +77,7 @@ public interface SensApigwNtrussComRequestApi {
             @SerializedName("reserveTimeZone") @Expose
             String reserveTimeZone
     ) {
-        record MessageVo(
+        public record MessageVo(
                 // 수신번호, 붙임표 ( - )를 제외한 숫자만 입력 가능
                 @SerializedName("to") @Expose
                 @Valid @NotNull @org.jetbrains.annotations.NotNull
@@ -91,7 +91,7 @@ public interface SensApigwNtrussComRequestApi {
         ) {
         }
 
-        record FileVo(
+        public record FileVo(
                 // 파일 아이디, MMS 에서만 사용 가능, 파일 전송 api 사용 후 받아온 fileId 를 입력
                 @SerializedName("fileId") @Expose
                 @Valid @NotNull @org.jetbrains.annotations.NotNull
@@ -232,7 +232,7 @@ public interface SensApigwNtrussComRequestApi {
             @SerializedName("reserveTimeZone") @Expose
             String reserveTimeZone
     ) {
-        record MessageVo(
+        public record MessageVo(
                 // 수신자 국가번호, default: 82
                 @SerializedName("countryCode") @Expose
                 String countryCode,
@@ -266,7 +266,7 @@ public interface SensApigwNtrussComRequestApi {
                 @SerializedName("failoverConfig") @Expose
                 FailOverConfigVo failoverConfig
         ) {
-            record ItemHighlightVo(
+            public record ItemHighlightVo(
                     // 아이템 하이라이트 제목, 아이템 리스트 유형의 템플릿에서만 사용 가능
                     // 이미지가 없는 경우 : 최대 30자까지 입력 가능 (2줄), 1줄은 15자까지 입력 가능
                     // 이미지가 있는 경우 : 최대 21자까지 입력 가능 (2줄), 1줄은 10자까지 입력 가능, 2줄 초과 시 말줄임 처리
@@ -282,7 +282,7 @@ public interface SensApigwNtrussComRequestApi {
             ) {
             }
 
-            record ItemVo(
+            public record ItemVo(
                     // 아이템 리스트, 아이템리스트 유형의 템플릿에서만 사용 가능, 최소 2개 이상, 최대 10개
                     @SerializedName("list") @Expose
                     @Valid @NotNull @org.jetbrains.annotations.NotNull
@@ -291,7 +291,7 @@ public interface SensApigwNtrussComRequestApi {
                     @SerializedName("summary") @Expose
                     SummaryVo summary
             ) {
-                record ListItemVo(
+                public record ListItemVo(
                         // 아이템 리스트 제목, 아이템리스트 유형의 템플릿에서만 사용 가능, 최대 6자까지 입력 가능
                         @SerializedName("title") @Expose
                         @Valid @NotNull @org.jetbrains.annotations.NotNull
@@ -303,7 +303,7 @@ public interface SensApigwNtrussComRequestApi {
                 ) {
                 }
 
-                record SummaryVo(
+                public record SummaryVo(
                         // 아이템 요약 제목, 아이템리스트 유형의 템플릿에서만 사용 가능, 최대 6자까지 입력 가능
                         @SerializedName("title") @Expose
                         @Valid @NotNull @org.jetbrains.annotations.NotNull
@@ -347,7 +347,7 @@ public interface SensApigwNtrussComRequestApi {
             ) {
             }
 
-            record FailOverConfigVo(
+            public record FailOverConfigVo(
                     // Failover SMS 메시지 Type, SMS 또는 LMS, 기본: content 길이에 따라 자동 적용(90 bytes 이하 SMS, 초과 LMS)
                     @SerializedName("type") @Expose
                     String type,

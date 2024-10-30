@@ -33,7 +33,7 @@ public interface KapiKakaoComRequestApi {
             @SerializedName("kakao_account") @Expose
             KakaoAccountVo kakaoAccount // 카카오계정 정보
     ) {
-        record KakaoAccountVo(
+        public record KakaoAccountVo(
                 @SerializedName("profile_needs_agreement") @Expose
                 Boolean profileNeedsAgreement,
                 @SerializedName("profile_nickname_needs_agreement") @Expose
@@ -79,7 +79,7 @@ public interface KapiKakaoComRequestApi {
                 @SerializedName("ci_authenticated_at") @Expose
                 String ciAuthenticatedAt
         ) {
-            record ProfileVo(
+            public record ProfileVo(
                     @SerializedName("nickname") @Expose
                     String nickname,
                     @SerializedName("thumbnail_image_url") @Expose
