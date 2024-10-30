@@ -5,7 +5,8 @@ import com.raillylinker.springboot_mvc_template_private_java.data_sources.redis_
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -22,24 +23,26 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ActuatorEndpointFilter implements Filter {
     public ActuatorEndpointFilter(
-            @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList
+            @Valid @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList
     ) {
         this.redis1RuntimeConfigIpList = redis1RuntimeConfigIpList;
     }
 
     // <멤버 변수 공간>
-    private final @NotNull org.slf4j.Logger classLogger = LoggerFactory.getLogger(this.getClass());
+    private final @Valid
+    @NotNull org.slf4j.Logger classLogger = LoggerFactory.getLogger(this.getClass());
 
     // (Redis Repository)
-    private final @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
+    private final @Valid
+    @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
 
     @Override
-    public void doFilter(@NotNull ServletRequest request, @NotNull ServletResponse response, @NotNull FilterChain chain) throws IOException, ServletException {
-        @NotNull HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        @NotNull HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+    public void doFilter(@Valid @NotNull ServletRequest request, @Valid @NotNull ServletResponse response, @Valid @NotNull FilterChain chain) throws IOException, ServletException {
+        @Valid @NotNull HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        @Valid @NotNull HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
         // 요청자 Ip (ex : 127.0.0.1)
-        @NotNull String clientAddressIp = httpServletRequest.getRemoteAddr();
+        @Valid @NotNull String clientAddressIp = httpServletRequest.getRemoteAddr();
 
 
         BasicRedisMap.RedisMapDataVo<Redis1_Map_RuntimeConfigIpList.ValueVo> actuatorAllowIpInfo = null;
@@ -51,7 +54,7 @@ public class ActuatorEndpointFilter implements Filter {
 
         boolean actuatorAllow = false;
         if (actuatorAllowIpInfo != null) {
-            for (@NotNull Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo actuatorAllowIp : actuatorAllowIpInfo.value().ipInfoList) {
+            for (Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo actuatorAllowIp : actuatorAllowIpInfo.value().ipInfoList) {
                 if (clientAddressIp.equals(actuatorAllowIp.ip())) {
                     actuatorAllow = true;
                     break;

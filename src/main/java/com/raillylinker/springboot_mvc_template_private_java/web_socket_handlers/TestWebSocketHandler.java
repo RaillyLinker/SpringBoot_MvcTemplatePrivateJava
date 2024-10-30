@@ -2,7 +2,8 @@ package com.raillylinker.springboot_mvc_template_private_java.web_socket_handler
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.socket.CloseStatus;
@@ -20,20 +21,23 @@ import java.util.concurrent.Executors;
 // 텍스트 데이터 양방향 연결
 public class TestWebSocketHandler extends TextWebSocketHandler {
     // <멤버 변수 공간>
-    private final Logger classLogger = LoggerFactory.getLogger(this.getClass());
+    private final @Valid
+    @NotNull Logger classLogger = LoggerFactory.getLogger(this.getClass());
 
     // (현재 웹 소켓에 연결된 세션 리스트)
-    private final ConcurrentHashMap<String, WebSocketSession> webSocketSessionHashMap = new ConcurrentHashMap<>();
+    private final @Valid
+    @NotNull ConcurrentHashMap<String, WebSocketSession> webSocketSessionHashMap = new ConcurrentHashMap<>();
 
     // (스레드 풀)
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
+    private final @Valid
+    @NotNull ExecutorService executorService = Executors.newCachedThreadPool();
 
 
     // ---------------------------------------------------------------------------------------------
     // <공개 메소드 공간>
     // (Client 연결 콜백)
     @Override
-    public void afterConnectionEstablished(@NotNull WebSocketSession webSocketSession) {
+    public void afterConnectionEstablished(@Valid @NotNull WebSocketSession webSocketSession) {
         // 웹 소켓 세션을 추가
         webSocketSessionHashMap.put(webSocketSession.getId(), webSocketSession);
     }
@@ -41,14 +45,14 @@ public class TestWebSocketHandler extends TextWebSocketHandler {
     // (Client 해제 콜백)
     @SuppressWarnings("resource")
     @Override
-    public void afterConnectionClosed(WebSocketSession webSocketSession, @NotNull CloseStatus status) {
+    public void afterConnectionClosed(WebSocketSession webSocketSession, @Valid @NotNull CloseStatus status) {
         // 세션을 리스트에서 제거
         webSocketSessionHashMap.remove(webSocketSession.getId());
     }
 
     // (텍스트 메세지 수신 콜백)
     @Override
-    public void handleTextMessage(@NotNull WebSocketSession webSocketSession, TextMessage message) {
+    public void handleTextMessage(@Valid @NotNull WebSocketSession webSocketSession, TextMessage message) {
         // 보내온 String 메세지를 객체로 해석
         Type messageType = new TypeToken<MessagePayloadVo>() {
         }.getType();

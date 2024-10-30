@@ -10,7 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,11 +22,11 @@ import java.util.List;
 @Tag(name = "root APIs", description = "C1 : Root 경로에 대한 API 컨트롤러")
 @Controller
 public class C1Controller {
-    public C1Controller(@NotNull C1Service service) {
+    public C1Controller(@Valid @NotNull C1Service service) {
         this.service = service;
     }
 
-    private final @NotNull C1Service service;
+    private final @Valid @NotNull C1Service service;
 
 
     // ---------------------------------------------------------------------------------------------
@@ -48,7 +49,7 @@ public class C1Controller {
             produces = MediaType.TEXT_HTML_VALUE
     )
     public ModelAndView api1GetRoot(
-            @Parameter(hidden = true) @NotNull HttpServletResponse httpServletResponse
+            @Parameter(hidden = true) @Valid @NotNull HttpServletResponse httpServletResponse
     ) {
         return service.api1GetRoot(httpServletResponse);
     }
@@ -73,47 +74,39 @@ public class C1Controller {
     )
     @ResponseBody
     public Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo api2SelectAllProjectRuntimeConfigsRedisKeyValue(
-            @Parameter(hidden = true) @NotNull HttpServletResponse httpServletResponse
+            @Parameter(hidden = true) @Valid @NotNull HttpServletResponse httpServletResponse
     ) {
         return service.api2SelectAllProjectRuntimeConfigsRedisKeyValue(httpServletResponse);
     }
 
-    public static class Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo {
-        public Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo(@NotNull List<KeyValueVo> keyValueList) {
-            this.keyValueList = keyValueList;
-        }
-
-        @Schema(description = "Key-Value 리스트", requiredMode = Schema.RequiredMode.REQUIRED)
-        @JsonProperty("keyValueList")
-        public @NotNull List<KeyValueVo> keyValueList;
-
-        @Schema(description = "Key-Value 객체", requiredMode = Schema.RequiredMode.REQUIRED)
-        public static class KeyValueVo {
-            public KeyValueVo(@NotNull String key, @NotNull List<IpDescVo> ipInfoList) {
-                this.key = key;
-                this.ipInfoList = ipInfoList;
-            }
-
-            @Schema(description = "Key", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
-            @JsonProperty("key")
-            public @NotNull String key;
-
-            @Schema(description = "설정 IP 정보 리스트", requiredMode = Schema.RequiredMode.REQUIRED)
-            @JsonProperty("ipInfoList")
-            public @NotNull List<IpDescVo> ipInfoList;
-
-            public static class IpDescVo {
-                public IpDescVo(@NotNull String ip, @NotNull String desc) {
-                    this.ip = ip;
-                    this.desc = desc;
-                }
-
-                @Schema(description = "설정 ip", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
-                @JsonProperty("ip")
-                public @NotNull String ip;
-                @Schema(description = "ip 설명", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
-                @JsonProperty("desc")
-                public @NotNull String desc;
+    public record Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo(
+            @Schema(description = "Key-Value 리스트", requiredMode = Schema.RequiredMode.REQUIRED)
+            @JsonProperty("keyValueList")
+            @Valid @NotNull
+            List<KeyValueVo> keyValueList
+    ) {
+        @Schema(description = "Key-Value 객체")
+        public record KeyValueVo(
+                @Schema(description = "Key", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
+                @JsonProperty("key")
+                @Valid @NotNull
+                String key,
+                @Schema(description = "설정 IP 정보 리스트", requiredMode = Schema.RequiredMode.REQUIRED)
+                @JsonProperty("ipInfoList")
+                @Valid @NotNull
+                List<Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo.KeyValueVo.IpDescVo> ipInfoList
+        ) {
+            @Schema(description = "ip 설명 객체")
+            public record IpDescVo(
+                    @Schema(description = "설정 ip", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
+                    @JsonProperty("ip")
+                    @Valid @NotNull
+                    String ip,
+                    @Schema(description = "ip 설명", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
+                    @JsonProperty("desc")
+                    @Valid @NotNull
+                    String desc
+            ) {
             }
         }
     }
@@ -139,15 +132,15 @@ public class C1Controller {
     )
     @ResponseBody
     public void api3InsertProjectRuntimeConfigActuatorAllowIpList(
-            @Parameter(hidden = true) @NotNull HttpServletResponse httpServletResponse,
-            @RequestBody @NotNull Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo inputVo
+            @Parameter(hidden = true) @Valid @NotNull HttpServletResponse httpServletResponse,
+            @RequestBody @Valid @NotNull Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo inputVo
     ) {
         service.api3InsertProjectRuntimeConfigActuatorAllowIpList(httpServletResponse, inputVo);
     }
 
     public static class Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo {
         @JsonCreator
-        public Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo(@NotNull List<IpDescVo> ipInfoList) {
+        public Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo(@Valid @NotNull List<IpDescVo> ipInfoList) {
             this.ipInfoList = ipInfoList;
         }
 
@@ -157,21 +150,21 @@ public class C1Controller {
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         @JsonProperty("ipInfoList")
-        public @NotNull List<IpDescVo> ipInfoList;
+        public @Valid @NotNull List<IpDescVo> ipInfoList;
 
         public static class IpDescVo {
             @JsonCreator
-            public IpDescVo(@NotNull String ip, @NotNull String desc) {
+            public IpDescVo(@Valid @NotNull String ip, @Valid @NotNull String desc) {
                 this.ip = ip;
                 this.desc = desc;
             }
 
             @Schema(description = "설정 ip", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
             @JsonProperty("ip")
-            public @NotNull String ip;
+            public @Valid @NotNull String ip;
             @Schema(description = "ip 설명", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
             @JsonProperty("desc")
-            public @NotNull String desc;
+            public @Valid @NotNull String desc;
         }
     }
 
@@ -196,15 +189,15 @@ public class C1Controller {
     )
     @ResponseBody
     public void api4InsertProjectRuntimeConfigLoggingDenyIpList(
-            @Parameter(hidden = true) @NotNull HttpServletResponse httpServletResponse,
-            @RequestBody @NotNull Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo inputVo
+            @Parameter(hidden = true) @Valid @NotNull HttpServletResponse httpServletResponse,
+            @RequestBody @Valid @NotNull Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo inputVo
     ) {
         service.api4InsertProjectRuntimeConfigLoggingDenyIpList(httpServletResponse, inputVo);
     }
 
     public static class Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo {
         @JsonCreator
-        public Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo(@NotNull List<IpDescVo> ipInfoList) {
+        public Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo(@Valid @NotNull List<IpDescVo> ipInfoList) {
             this.ipInfoList = ipInfoList;
         }
 
@@ -214,21 +207,21 @@ public class C1Controller {
                 requiredMode = Schema.RequiredMode.REQUIRED
         )
         @JsonProperty("ipInfoList")
-        public @NotNull List<IpDescVo> ipInfoList;
+        public @Valid @NotNull List<IpDescVo> ipInfoList;
 
         public static class IpDescVo {
             @JsonCreator
-            public IpDescVo(@NotNull String ip, @NotNull String desc) {
+            public IpDescVo(@Valid @NotNull String ip, @Valid @NotNull String desc) {
                 this.ip = ip;
                 this.desc = desc;
             }
 
             @Schema(description = "설정 ip", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
             @JsonProperty("ip")
-            public @NotNull String ip;
+            public @Valid @NotNull String ip;
             @Schema(description = "ip 설명", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
             @JsonProperty("desc")
-            public @NotNull String desc;
+            public @Valid @NotNull String desc;
         }
     }
 }

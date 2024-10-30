@@ -1,6 +1,7 @@
 package com.raillylinker.springboot_mvc_template_private_java.data_sources.const_objects;
 
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 // [프로젝트 전역 상수 모음]
 // 아래 변수들은 절대 런타임에 변경되어서는 안됩니다.
@@ -13,9 +14,11 @@ public final class ProjectConst {
     }
 
     // !!!현 프로젝트에서 사용할 타임존 설정 (UTC, Asia/Seoul, ...)!!!
-    public static final @NotNull String SYSTEM_TIME_ZONE = "Asia/Seoul";
+    public static final @Valid
+    @NotNull String SYSTEM_TIME_ZONE = "Asia/Seoul";
 
     // (DatabaseConfig)
     // !!!본인의 패키지명 작성!!!
-    public static final @NotNull String PACKAGE_NAME = "com.raillylinker.springboot_mvc_template_private_java";
+    public static final @Valid
+    @NotNull String PACKAGE_NAME = "com.raillylinker.springboot_mvc_template_private_java";
 }

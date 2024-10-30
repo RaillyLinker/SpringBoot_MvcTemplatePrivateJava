@@ -1,6 +1,7 @@
 package com.raillylinker.springboot_mvc_template_private_java.annotations;
 
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -12,5 +13,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CustomTransactional {
-    @NotNull String[] transactionManagerBeanNameList();
+    @Valid @NotNull String[] transactionManagerBeanNameList();
 }

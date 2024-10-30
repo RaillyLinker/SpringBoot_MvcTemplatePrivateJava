@@ -1,7 +1,8 @@
 package com.raillylinker.springboot_mvc_template_private_java.configurations;
 
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JacksonConfig {
     @Bean
-    public @NotNull Hibernate5Module hibernate5Module() {
+    public @Valid @NotNull Hibernate5Module hibernate5Module() {
         return new Hibernate5Module();
     }
 }

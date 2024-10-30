@@ -2,7 +2,8 @@ package com.raillylinker.springboot_mvc_template_private_java.data_sources.redis
 
 import com.raillylinker.springboot_mvc_template_private_java.abstract_classes.BasicRedisLock;
 import com.raillylinker.springboot_mvc_template_private_java.configurations.redis_configs.Redis1MainConfig;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -11,11 +12,12 @@ import org.springframework.stereotype.Component;
 public class Redis1_Lock_Test extends BasicRedisLock {
     public Redis1_Lock_Test(
             // !!!RedisConfig 종류 변경!!!
-            @Qualifier(Redis1MainConfig.REDIS_TEMPLATE_NAME) @NotNull RedisTemplate<String, String> redisTemplate
+            @Qualifier(Redis1MainConfig.REDIS_TEMPLATE_NAME) @Valid @NotNull RedisTemplate<String, String> redisTemplate
     ) {
         super(redisTemplate, MAP_NAME);
     }
 
     // <멤버 변수 공간>
-    private static final @NotNull String MAP_NAME = "Redis1_Lock_Test";
+    private static final @Valid
+    @NotNull String MAP_NAME = "Redis1_Lock_Test";
 }

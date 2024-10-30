@@ -1,7 +1,8 @@
 package com.raillylinker.springboot_mvc_template_private_java.configurations.database_configs;
 
 import com.raillylinker.springboot_mvc_template_private_java.data_sources.const_objects.ProjectConst;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -28,30 +29,34 @@ import java.util.HashMap;
 )
 public class Db1MainConfig {
     // !!!application.yml 의 datasource 안에 작성된 이름 할당하기!!!
-    public static final @NotNull String DATABASE_CONFIG_NAME = "db1-main";
+    public static final @Valid
+    @NotNull String DATABASE_CONFIG_NAME = "db1-main";
 
     // !!!data_sources/database_jpa 안의 서브 폴더(entities, repositories 를 가진 폴더)의 이름 할당하기!!!
-    public static final @NotNull String DATABASE_DIRECTORY_NAME = "db1_main";
+    public static final @Valid
+    @NotNull String DATABASE_DIRECTORY_NAME = "db1_main";
 
     // Database 트랜젝션을 사용할 때 사용하는 이름 변수
     // 트랜젝션을 적용할 함수 위에, @CustomTransactional 어노테이션과 결합하여,
     // @CustomTransactional([DbConfig.TRANSACTION_NAME])
     // 위와 같이 적용하세요.
-    public static final @NotNull String TRANSACTION_NAME = DATABASE_DIRECTORY_NAME + "_PlatformTransactionManager";
+    public static final @Valid
+    @NotNull String TRANSACTION_NAME = DATABASE_DIRECTORY_NAME + "_PlatformTransactionManager";
 
     @Value("${datasource." + DATABASE_CONFIG_NAME + ".database-platform}")
-    private @NotNull String databasePlatform = "";
+    private @Valid
+    @NotNull String databasePlatform = "";
 
     @Bean(DATABASE_DIRECTORY_NAME + "_LocalContainerEntityManagerFactoryBean")
-    public @NotNull LocalContainerEntityManagerFactoryBean customEntityManagerFactory() {
-        @NotNull LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+    public @Valid @NotNull LocalContainerEntityManagerFactoryBean customEntityManagerFactory() {
+        @Valid @NotNull LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(customDataSource());
         em.setPackagesToScan(ProjectConst.PACKAGE_NAME + ".data_sources.jpa_beans." + DATABASE_DIRECTORY_NAME + ".entities");
 
-        @NotNull HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        @Valid @NotNull HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
 
-        @NotNull HashMap<String, Object> properties = new HashMap<>();
+        @Valid @NotNull HashMap<String, Object> properties = new HashMap<>();
 //        ********* 주의 : ddl-auto 설정을 바꿀 때는 극도로 주의할 것!!!!!! *********
 //        ********* 주의 : ddl-auto 설정을 바꿀 때는 극도로 주의할 것!!!!!! *********
 //        데이터베이스 초기화 전략
@@ -71,15 +76,15 @@ public class Db1MainConfig {
     }
 
     @Bean(TRANSACTION_NAME)
-    public @NotNull PlatformTransactionManager customTransactionManager() {
-        @NotNull JpaTransactionManager transactionManager = new JpaTransactionManager();
+    public @Valid @NotNull PlatformTransactionManager customTransactionManager() {
+        @Valid @NotNull JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(customEntityManagerFactory().getObject());
         return transactionManager;
     }
 
     @Bean(DATABASE_DIRECTORY_NAME + "_DataSource")
     @ConfigurationProperties(prefix = "datasource." + DATABASE_CONFIG_NAME)
-    public @NotNull DataSource customDataSource() {
+    public @Valid @NotNull DataSource customDataSource() {
         return DataSourceBuilder.create().build();
     }
 }

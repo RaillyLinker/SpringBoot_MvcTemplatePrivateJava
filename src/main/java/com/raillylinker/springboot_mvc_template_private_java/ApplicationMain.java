@@ -1,6 +1,8 @@
 package com.raillylinker.springboot_mvc_template_private_java;
 
 import com.raillylinker.springboot_mvc_template_private_java.data_sources.const_objects.ProjectConst;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,7 +38,7 @@ public class ApplicationMain {
         };
     }
 
-    public static void main(String[] args) {
+    public static void main(@Valid @NotNull String[] args) {
         SpringApplication.run(ApplicationMain.class, args);
     }
 }

@@ -7,6 +7,8 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -31,8 +33,8 @@ public class SwaggerConfig {
     // ---------------------------------------------------------------------------------------------
     // <공개 메소드 공간>
     @Bean
-    public OpenAPI openAPI() {
-        Components components = new Components().addSecuritySchemes(
+    public @Valid @NotNull OpenAPI openAPI() {
+        @Valid @NotNull Components components = new Components().addSecuritySchemes(
                 "JWT",
                 new SecurityScheme()
                         .type(SecurityScheme.Type.HTTP)
@@ -42,9 +44,9 @@ public class SwaggerConfig {
                         .name(HttpHeaders.AUTHORIZATION)
         );
 
-        SecurityRequirement securityRequirement = new SecurityRequirement().addList("JWT");
+        @Valid @NotNull SecurityRequirement securityRequirement = new SecurityRequirement().addList("JWT");
 
-        Info documentInfo = new Info()
+        @Valid @NotNull Info documentInfo = new Info()
                 .title(documentTitle)
                 .version(documentVersion)
                 .description(documentDescription);
@@ -56,8 +58,8 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public OpenApiCustomizer openApiCustomizer() {
-        Consumer<Operation> pathItemConsumer = operation -> operation.getResponses()
+    public @Valid @NotNull OpenApiCustomizer openApiCustomizer() {
+        @Valid @NotNull Consumer<Operation> pathItemConsumer = operation -> operation.getResponses()
                 .addApiResponse("400", new ApiResponse()
                         .description("클라이언트에서 전달한 Request 변수의 형식이 잘못되었습니다.\n\n" +
                                 "입력 데이터를 다시 한번 확인해주세요"))

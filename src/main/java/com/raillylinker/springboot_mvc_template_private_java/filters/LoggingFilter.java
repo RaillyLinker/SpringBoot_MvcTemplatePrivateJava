@@ -8,7 +8,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -30,18 +31,21 @@ import java.util.stream.Collectors;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class LoggingFilter extends OncePerRequestFilter {
-    public LoggingFilter(@NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList) {
+    public LoggingFilter(@Valid @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList) {
         this.redis1RuntimeConfigIpList = redis1RuntimeConfigIpList;
     }
 
     // (Redis Repository)
-    private final @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
+    private final @Valid
+    @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
 
     // <멤버 변수 공간>
-    private final @NotNull org.slf4j.Logger classLogger = LoggerFactory.getLogger(this.getClass());
+    private final @Valid
+    @NotNull org.slf4j.Logger classLogger = LoggerFactory.getLogger(this.getClass());
 
     // 로깅 body 에 표시할 데이터 타입
-    private final @NotNull List<MediaType> visibleTypeList = List.of(
+    private final @Valid
+    @NotNull List<MediaType> visibleTypeList = List.of(
             MediaType.valueOf("text/*"),
             MediaType.APPLICATION_JSON,
             MediaType.APPLICATION_XML,
@@ -52,12 +56,12 @@ public class LoggingFilter extends OncePerRequestFilter {
     // ---------------------------------------------------------------------------------------------
     // <상속 메소드 공간>
     @Override
-    protected void doFilterInternal(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain)
+    protected void doFilterInternal(@Valid @NotNull HttpServletRequest request, @Valid @NotNull HttpServletResponse response, @Valid @NotNull FilterChain filterChain)
             throws ServletException, java.io.IOException {
-        @NotNull LocalDateTime requestTime = LocalDateTime.now();
+        @Valid @NotNull LocalDateTime requestTime = LocalDateTime.now();
 
         // 요청자 Ip (ex : 127.0.0.1)
-        @NotNull String clientAddressIp = request.getRemoteAddr();
+        @Valid @NotNull String clientAddressIp = request.getRemoteAddr();
 
         BasicRedisMap.RedisMapDataVo<Redis1_Map_RuntimeConfigIpList.ValueVo> loggingDenyIpInfo = null;
         try {
@@ -68,7 +72,7 @@ public class LoggingFilter extends OncePerRequestFilter {
 
         boolean loggingDeny = false;
         if (loggingDenyIpInfo != null) {
-            for (@NotNull Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo loggingDenyIp : loggingDenyIpInfo.value().ipInfoList) {
+            for (Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo loggingDenyIp : loggingDenyIpInfo.value().ipInfoList) {
                 if (loggingDenyIp.ip().equals(clientAddressIp)) {
                     loggingDeny = true;
                     break;
@@ -86,10 +90,10 @@ public class LoggingFilter extends OncePerRequestFilter {
             return;
         }
 
-        @NotNull ContentCachingRequestWrapper httpServletRequest = request instanceof ContentCachingRequestWrapper
+        @Valid @NotNull ContentCachingRequestWrapper httpServletRequest = request instanceof ContentCachingRequestWrapper
                 ? (ContentCachingRequestWrapper) request
                 : new ContentCachingRequestWrapper(request);
-        @NotNull ContentCachingResponseWrapper httpServletResponse = response instanceof ContentCachingResponseWrapper
+        @Valid @NotNull ContentCachingResponseWrapper httpServletResponse = response instanceof ContentCachingResponseWrapper
                 ? (ContentCachingResponseWrapper) response
                 : new ContentCachingResponseWrapper(response);
 
@@ -107,41 +111,41 @@ public class LoggingFilter extends OncePerRequestFilter {
             }
             throw e;
         } finally {
-            @NotNull String queryString = httpServletRequest.getQueryString() != null ? "?" + httpServletRequest.getQueryString() : "";
-            @NotNull String endpoint = httpServletRequest.getMethod() + " " + httpServletRequest.getRequestURI() + queryString;
+            @Valid @NotNull String queryString = httpServletRequest.getQueryString() != null ? "?" + httpServletRequest.getQueryString() : "";
+            @Valid @NotNull String endpoint = httpServletRequest.getMethod() + " " + httpServletRequest.getRequestURI() + queryString;
 
-            @NotNull Map<String, String> requestHeaders = new HashMap<>();
-            @NotNull Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
+            @Valid @NotNull Map<String, String> requestHeaders = new HashMap<>();
+            @Valid @NotNull Enumeration<String> headerNames = httpServletRequest.getHeaderNames();
             while (headerNames.hasMoreElements()) {
-                @NotNull String headerName = headerNames.nextElement();
-                @NotNull String headerValue = httpServletRequest.getHeader(headerName);
+                @Valid @NotNull String headerName = headerNames.nextElement();
+                @Valid @NotNull String headerValue = httpServletRequest.getHeader(headerName);
                 requestHeaders.put(headerName, headerValue);
             }
 
-            @NotNull byte[] requestContentByteArray = httpServletRequest.getContentAsByteArray();
-            @NotNull String requestBody = requestContentByteArray.length > 0
+            @Valid @NotNull byte[] requestContentByteArray = httpServletRequest.getContentAsByteArray();
+            @Valid @NotNull String requestBody = requestContentByteArray.length > 0
                     ? getContentByte(requestContentByteArray, httpServletRequest.getContentType())
                     : "";
 
             int responseStatus = httpServletResponse.getStatus();
-            @NotNull String responseStatusPhrase;
+            @Valid @NotNull String responseStatusPhrase;
             try {
                 responseStatusPhrase = HttpStatus.valueOf(responseStatus).getReasonPhrase();
             } catch (Exception e) {
                 responseStatusPhrase = "";
             }
 
-            Map<String, String> responseHeaders = new HashMap<>();
+            @Valid @NotNull Map<String, String> responseHeaders = new HashMap<>();
 
             // Collection<String>으로 반환된다고 가정
-            Collection<String> responseHeaderNames = httpServletResponse.getHeaderNames();
-            for (String headerName : responseHeaderNames) {
+            @Valid @NotNull Collection<String> responseHeaderNames = httpServletResponse.getHeaderNames();
+            for (@Valid @NotNull String headerName : responseHeaderNames) {
                 String headerValue = httpServletResponse.getHeader(headerName);
                 responseHeaders.put(headerName, headerValue);
             }
 
-            @NotNull byte[] responseContentByteArray = httpServletResponse.getContentAsByteArray();
-            @NotNull String responseBody = responseContentByteArray.length > 0
+            @Valid @NotNull byte[] responseContentByteArray = httpServletResponse.getContentAsByteArray();
+            @Valid @NotNull String responseBody = responseContentByteArray.length > 0
                     ? (httpServletResponse.getContentType().startsWith("text/html") ? "HTML Content" :
                     (httpServletRequest.getRequestURI().startsWith("/v3/api-docs") ||
                             httpServletRequest.getRequestURI().equals("/swagger-ui/swagger-initializer.js") ? "Skip" :
@@ -150,8 +154,8 @@ public class LoggingFilter extends OncePerRequestFilter {
 
             // 로깅 처리
             // !!!로그 시작 문자 설정!!!
-            @NotNull String loggingStart = ">>ApiFilterLog>>";
-            @NotNull String logMessage = String.format(
+            @Valid @NotNull String loggingStart = ">>ApiFilterLog>>";
+            @Valid @NotNull String logMessage = String.format(
                     "%s\nrequestTime : %s\nendPoint : %s\nclient Ip : %s\nrequest Headers : %s\nrequest Body : %s\n->\nresponse Status : %d %s\nprocessing duration(ms) : %d\nresponse Headers : %s\nresponse Body : %s\n",
                     loggingStart,
                     requestTime,
@@ -200,8 +204,8 @@ public class LoggingFilter extends OncePerRequestFilter {
 
     // ---------------------------------------------------------------------------------------------
     // <비공개 메소드 공간>
-    private @NotNull String getContentByte(@NotNull byte[] content, @NotNull String contentType) {
-        @NotNull MediaType mediaType = MediaType.valueOf(contentType);
+    private @Valid @NotNull String getContentByte(@Valid @NotNull byte[] content, @Valid @NotNull String contentType) {
+        @Valid @NotNull MediaType mediaType = MediaType.valueOf(contentType);
         boolean visible = visibleTypeList.stream().anyMatch(visibleType -> visibleType.includes(mediaType));
 
         if (visible) {

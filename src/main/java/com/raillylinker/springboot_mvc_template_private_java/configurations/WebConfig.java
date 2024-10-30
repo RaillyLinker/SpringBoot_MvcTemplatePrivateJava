@@ -1,6 +1,7 @@
 package com.raillylinker.springboot_mvc_template_private_java.configurations;
 
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,12 +15,13 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
     // (Cors 설정)
     @Value("${custom-config.cors-allow-list:}#{T(java.util.Collections).emptyList()}")
-    private @NotNull List<String> corsList = new ArrayList<>();
+    private @Valid
+    @NotNull List<String> corsList = new ArrayList<>();
 
     // [Cors 설정]
     @Override
-    public void addCorsMappings(@NotNull CorsRegistry registry) {
-        @NotNull CorsRegistration allPathRegistry = registry.addMapping("/**"); // 아래 설정을 적용할 요청 경로 (ex : "/somePath/**", "/path")
+    public void addCorsMappings(@Valid @NotNull CorsRegistry registry) {
+        @Valid @NotNull CorsRegistration allPathRegistry = registry.addMapping("/**"); // 아래 설정을 적용할 요청 경로 (ex : "/somePath/**", "/path")
         if (corsList.isEmpty()) {
             allPathRegistry.allowedOriginPatterns("*"); // 모든 요청을 허용하려면 allowedOrigins 를 지우고 이것을 사용
         } else {
@@ -37,7 +39,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     // [Spring static Resource 경로 설정]
     @Override
-    public void addResourceHandlers(@NotNull ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(@Valid @NotNull ResourceHandlerRegistry registry) {
         // 실제 경로 addResourceLocations 를 addResourceHandler 로 처리하여,
         // static Resource 에 접근하려면, http://127.0.0.1:8080/images/1.png, http://127.0.0.1:8080/favicon.ico 와 같이 접근 가능
         registry
