@@ -54,8 +54,8 @@ public class C1Controller {
             produces = MediaType.TEXT_HTML_VALUE
     )
     public ModelAndView api1GetRoot(
-            @Valid @NotNull @org.jetbrains.annotations.NotNull
             @Parameter(hidden = true)
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
             HttpServletResponse httpServletResponse
     ) {
         return service.api1GetRoot(httpServletResponse);
@@ -81,8 +81,8 @@ public class C1Controller {
     )
     @ResponseBody
     public Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo api2SelectAllProjectRuntimeConfigsRedisKeyValue(
-            @Valid @NotNull @org.jetbrains.annotations.NotNull
             @Parameter(hidden = true)
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
             HttpServletResponse httpServletResponse
     ) {
         return service.api2SelectAllProjectRuntimeConfigsRedisKeyValue(httpServletResponse);
