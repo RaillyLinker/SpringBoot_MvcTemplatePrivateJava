@@ -20,7 +20,12 @@ import java.util.List;
 
 @Service
 public class C1ServiceImpl implements C1Service {
-    public C1ServiceImpl(@Valid @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList, @Valid @NotNull ActuatorWhiteList actuatorWhiteList) {
+    public C1ServiceImpl(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            ActuatorWhiteList actuatorWhiteList
+    ) {
         this.redis1RuntimeConfigIpList = redis1RuntimeConfigIpList;
         this.actuatorWhiteList = actuatorWhiteList;
     }
@@ -29,17 +34,27 @@ public class C1ServiceImpl implements C1Service {
     @Value("${spring.profiles.active:default}")
     private String activeProfile;
 
-    private final @Valid
-    @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
-    private final @Valid
-    @NotNull ActuatorWhiteList actuatorWhiteList;
-    private final @Valid
-    @NotNull Logger classLogger = LoggerFactory.getLogger(this.getClass());
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final ActuatorWhiteList actuatorWhiteList;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final Logger classLogger = LoggerFactory.getLogger(this.getClass());
 
     // ---------------------------------------------------------------------------------------------
     // <공개 메소드 공간>
     @Override
-    public ModelAndView api1GetRoot(@Valid @NotNull HttpServletResponse httpServletResponse) {
+    public ModelAndView api1GetRoot(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            HttpServletResponse httpServletResponse
+    ) {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
         ModelAndView mv = new ModelAndView();
         mv.setViewName("forward:/main/sc/v1/home");
         return mv;
@@ -47,15 +62,19 @@ public class C1ServiceImpl implements C1Service {
 
     ////
     @Override
-    public C1Controller.Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo api2SelectAllProjectRuntimeConfigsRedisKeyValue(@Valid @NotNull HttpServletResponse httpServletResponse) {
-        @Valid @NotNull List<C1Controller.Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo.KeyValueVo> testEntityListVoList =
-                new ArrayList<>();
+    public C1Controller.Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo api2SelectAllProjectRuntimeConfigsRedisKeyValue(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            HttpServletResponse httpServletResponse
+    ) {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        List<C1Controller.Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo.KeyValueVo> testEntityListVoList = new ArrayList<>();
 
         // actuator 저장 정보 가져오기
-        @Valid @NotNull List<ActuatorWhiteList.ActuatorAllowIpVo> actuatorWhiteList = this.actuatorWhiteList.getActuatorWhiteList();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        List<ActuatorWhiteList.ActuatorAllowIpVo> actuatorWhiteList = this.actuatorWhiteList.getActuatorWhiteList();
 
-        @Valid @NotNull List<C1Controller.Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo.KeyValueVo.IpDescVo> actuatorIpDescVoList =
-                new ArrayList<>();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        List<C1Controller.Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo.KeyValueVo.IpDescVo> actuatorIpDescVoList = new ArrayList<>();
         for (ActuatorWhiteList.ActuatorAllowIpVo actuatorWhite : actuatorWhiteList) {
             actuatorIpDescVoList.add(new C1Controller.Api2SelectAllProjectRuntimeConfigsRedisKeyValueOutputVo.KeyValueVo.IpDescVo(
                     actuatorWhite.ip(),
@@ -94,9 +113,14 @@ public class C1ServiceImpl implements C1Service {
 
     ////
     @Override
-    public void api3InsertProjectRuntimeConfigActuatorAllowIpList(@Valid @NotNull HttpServletResponse httpServletResponse,
-                                                                  @Valid @NotNull C1Controller.Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo inputVo) {
-        @Valid @NotNull List<ActuatorWhiteList.ActuatorAllowIpVo> actuatorAllowIpVoList = new ArrayList<>();
+    public void api3InsertProjectRuntimeConfigActuatorAllowIpList(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            HttpServletResponse httpServletResponse,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            C1Controller.Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo inputVo
+    ) {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        List<ActuatorWhiteList.ActuatorAllowIpVo> actuatorAllowIpVoList = new ArrayList<>();
 
         for (C1Controller.Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo.IpDescVo ipDescInfo : inputVo.ipInfoList) {
             actuatorAllowIpVoList.add(new ActuatorWhiteList.ActuatorAllowIpVo(
@@ -112,10 +136,13 @@ public class C1ServiceImpl implements C1Service {
     ////
     @Override
     public void api4InsertProjectRuntimeConfigLoggingDenyIpList(
-            @Valid @NotNull HttpServletResponse httpServletResponse,
-            @Valid @NotNull C1Controller.Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo inputVo
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            HttpServletResponse httpServletResponse,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            C1Controller.Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo inputVo
     ) {
-        @Valid @NotNull List<Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo> ipDescVoList = new ArrayList<>();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        List<Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo> ipDescVoList = new ArrayList<>();
 
         for (C1Controller.Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo.IpDescVo ipDescInfo : inputVo.ipInfoList) {
             ipDescVoList.add(new Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo(

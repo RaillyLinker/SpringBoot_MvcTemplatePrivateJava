@@ -12,18 +12,24 @@ import java.util.List;
 
 @Component
 public class ActuatorWhiteListImpl implements ActuatorWhiteList {
-    public ActuatorWhiteListImpl(@Valid @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList) {
+    public ActuatorWhiteListImpl(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList
+    ) {
         this.redis1RuntimeConfigIpList = redis1RuntimeConfigIpList;
     }
 
-    private final @Valid
-    @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
 
     @Override
-    public @Valid @NotNull List<ActuatorWhiteList.ActuatorAllowIpVo> getActuatorWhiteList() {
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull List<ActuatorWhiteList.ActuatorAllowIpVo> getActuatorWhiteList() {
         BasicRedisMap.RedisMapDataVo<Redis1_Map_RuntimeConfigIpList.ValueVo> keyValue = redis1RuntimeConfigIpList.findKeyValue(Redis1_Map_RuntimeConfigIpList.KeyEnum.ACTUATOR_ALLOW_IP_LIST.name());
 
-        @Valid @NotNull List<ActuatorWhiteList.ActuatorAllowIpVo> actuatorAllowIpList = new ArrayList<>();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        List<ActuatorWhiteList.ActuatorAllowIpVo> actuatorAllowIpList = new ArrayList<>();
         if (keyValue != null) {
             for (Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo vl : keyValue.value().ipInfoList) {
                 actuatorAllowIpList.add(new ActuatorWhiteList.ActuatorAllowIpVo(vl.ip(), vl.desc()));
@@ -34,10 +40,11 @@ public class ActuatorWhiteListImpl implements ActuatorWhiteList {
     }
 
     @Override
-    public void setActuatorWhiteList(@Valid @NotNull List<ActuatorWhiteList.ActuatorAllowIpVo> actuatorAllowIpVoList) {
-        @Valid @NotNull List<Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo> ipDescVoList = new ArrayList<>();
+    public void setActuatorWhiteList(@Valid @NotNull @org.jetbrains.annotations.NotNull List<ActuatorWhiteList.ActuatorAllowIpVo> actuatorAllowIpVoList) {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        List<Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo> ipDescVoList = new ArrayList<>();
 
-        for (@Valid @NotNull ActuatorAllowIpVo ipDescInfo : actuatorAllowIpVoList) {
+        for (@Valid @NotNull @org.jetbrains.annotations.NotNull ActuatorAllowIpVo ipDescInfo : actuatorAllowIpVoList) {
             ipDescVoList.add(new Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo(ipDescInfo.ip(), ipDescInfo.desc()));
         }
 

@@ -33,8 +33,9 @@ public class SwaggerConfig {
     // ---------------------------------------------------------------------------------------------
     // <공개 메소드 공간>
     @Bean
-    public @Valid @NotNull OpenAPI openAPI() {
-        @Valid @NotNull Components components = new Components().addSecuritySchemes(
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull OpenAPI openAPI() {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        Components components = new Components().addSecuritySchemes(
                 "JWT",
                 new SecurityScheme()
                         .type(SecurityScheme.Type.HTTP)
@@ -44,9 +45,11 @@ public class SwaggerConfig {
                         .name(HttpHeaders.AUTHORIZATION)
         );
 
-        @Valid @NotNull SecurityRequirement securityRequirement = new SecurityRequirement().addList("JWT");
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList("JWT");
 
-        @Valid @NotNull Info documentInfo = new Info()
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        Info documentInfo = new Info()
                 .title(documentTitle)
                 .version(documentVersion)
                 .description(documentDescription);
@@ -58,8 +61,9 @@ public class SwaggerConfig {
     }
 
     @Bean
-    public @Valid @NotNull OpenApiCustomizer openApiCustomizer() {
-        @Valid @NotNull Consumer<Operation> pathItemConsumer = operation -> operation.getResponses()
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull OpenApiCustomizer openApiCustomizer() {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        Consumer<Operation> pathItemConsumer = operation -> operation.getResponses()
                 .addApiResponse("400", new ApiResponse()
                         .description("클라이언트에서 전달한 Request 변수의 형식이 잘못되었습니다.\n\n" +
                                 "입력 데이터를 다시 한번 확인해주세요"))

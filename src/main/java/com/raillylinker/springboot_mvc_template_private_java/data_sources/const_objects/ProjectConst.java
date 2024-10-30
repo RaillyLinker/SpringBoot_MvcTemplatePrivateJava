@@ -14,11 +14,15 @@ public final class ProjectConst {
     }
 
     // !!!현 프로젝트에서 사용할 타임존 설정 (UTC, Asia/Seoul, ...)!!!
-    public static final @Valid
-    @NotNull String SYSTEM_TIME_ZONE = "Asia/Seoul";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    public static final String SYSTEM_TIME_ZONE = "Asia/Seoul";
 
     // (DatabaseConfig)
     // !!!본인의 패키지명 작성!!!
-    public static final @Valid
-    @NotNull String PACKAGE_NAME = "com.raillylinker.springboot_mvc_template_private_java";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    public static final String PACKAGE_NAME = "com.raillylinker.springboot_mvc_template_private_java";
 }

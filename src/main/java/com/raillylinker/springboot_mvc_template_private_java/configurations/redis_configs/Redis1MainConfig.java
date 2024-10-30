@@ -16,7 +16,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 
 // [Redis 설정]
@@ -25,19 +24,22 @@ import java.util.List;
 public class Redis1MainConfig {
     // <멤버 변수 공간>
     // !!!application.yml 의 datasource-redis 안에 작성된 이름 할당하기!!!
-    private static final @Valid
-    @NotNull String REDIS_CONFIG_NAME = "redis1-main";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private static final String REDIS_CONFIG_NAME = "redis1-main";
     // Redis Template Bean 이름
-    public static final @Valid
-    @NotNull String REDIS_TEMPLATE_NAME = REDIS_CONFIG_NAME + "_template";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    public static final String REDIS_TEMPLATE_NAME = REDIS_CONFIG_NAME + "_template";
 
     @Value("${datasource-redis." + REDIS_CONFIG_NAME + ".node-list:#{T(java.util.Collections).emptyList()}}")
-    private @Valid
-    @NotNull List<String> nodeList = new ArrayList<>();
+    private List<String> nodeList;
 
     // ---------------------------------------------------------------------------------------------
     @Bean(REDIS_CONFIG_NAME + "_ConnectionFactory")
-    public @Valid @NotNull LettuceConnectionFactory redisConnectionFactory() {
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull LettuceConnectionFactory redisConnectionFactory() {
         // Socket Option
         /*
         Lettuce 라이브러리를 사용한다면 Keep Alive 기능을 활성화하고 Connection timeout을 설정하는 것을 추천합니다.
@@ -63,7 +65,8 @@ public class Redis1MainConfig {
         그래서 애플리케이션이 연쇄적인 장애에 빠지지 않게, 시스템을 격리/보호하는 전략도 고려해 볼 수 있습니다.
         비즈니스 로직에 따라서 빠른 실패가 시스템 전체를 보호할 수 있습니다.
          */
-        @Valid @NotNull SocketOptions socketOptions = SocketOptions.builder()
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        SocketOptions socketOptions = SocketOptions.builder()
                 .connectTimeout(Duration.ofMillis(1000L))
                 .keepAlive(true)
                 .build();
@@ -100,7 +103,8 @@ public class Redis1MainConfig {
         그래서 새로운 정보로 토폴로지를 업데이트합니다.
         그러므로 대규모 Redis 클러스터에는 DynamicRefreshResources 기능을 끄는 것을 추천합니다.
          */
-        @Valid @NotNull ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
                 .dynamicRefreshSources(true)
                 .enableAllAdaptiveRefreshTriggers()
                 .enablePeriodicRefresh(Duration.ofSeconds(30))
@@ -118,7 +122,8 @@ public class Redis1MainConfig {
         만약 Redis 클러스터가 3대의 노드로 구성되어 있다면 maxRedirects 값을 3으로 설정했다고 생각해 봅시다.
         이 경우 클라이언트 애플리케이션이 실행한 명령어가 실패할 확률은 매우 줄어듭니다.
          */
-        @Valid @NotNull ClusterClientOptions clusterClientOptions = ClusterClientOptions.builder()
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        ClusterClientOptions clusterClientOptions = ClusterClientOptions.builder()
                 .pingBeforeActivateConnection(true)
                 .autoReconnect(true)
                 .socketOptions(socketOptions)
@@ -133,16 +138,19 @@ public class Redis1MainConfig {
         예제에서는 Command Timeout을 1500ms로 설정했으며,
         앞서 설정한 SocketOptions의 Connection Timeout 값을 1000ms로 설정했습니다.
          */
-        @Valid @NotNull LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
                 .commandTimeout(Duration.ofMillis(1500L))
                 .clientOptions(clusterClientOptions)
                 .build();
 
-        @Valid @NotNull RedisClusterConfiguration clusterConfig = new RedisClusterConfiguration(nodeList);
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        RedisClusterConfiguration clusterConfig = new RedisClusterConfiguration(nodeList);
         clusterConfig.setMaxRedirects(3);
         clusterConfig.setPassword("todoPw");
 
-        @Valid @NotNull LettuceConnectionFactory factory = new LettuceConnectionFactory(clusterConfig, clientConfig);
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(clusterConfig, clientConfig);
         // LettuceConnectionFactory 옵션
         factory.setValidateConnection(false);
 
@@ -150,8 +158,9 @@ public class Redis1MainConfig {
     }
 
     @Bean(REDIS_TEMPLATE_NAME)
-    public @Valid @NotNull RedisTemplate<String, String> redisRedisTemplate() {
-        @Valid @NotNull RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull RedisTemplate<String, String> redisRedisTemplate() {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());

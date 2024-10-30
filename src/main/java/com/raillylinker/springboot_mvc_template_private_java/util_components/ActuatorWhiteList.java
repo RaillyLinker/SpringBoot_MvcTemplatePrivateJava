@@ -9,11 +9,19 @@ public interface ActuatorWhiteList {
     // (Actuator 화이트 리스트 반환)
     @Valid
     @NotNull
+    @org.jetbrains.annotations.NotNull
     List<ActuatorAllowIpVo> getActuatorWhiteList();
 
     // (Actuator 화이트 리스트 설정)
-    void setActuatorWhiteList(@Valid @NotNull List<ActuatorAllowIpVo> actuatorAllowIpVoList);
+    void setActuatorWhiteList(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            List<ActuatorAllowIpVo> actuatorAllowIpVoList
+    );
 
-    record ActuatorAllowIpVo(@Valid @NotNull String ip, @Valid @NotNull String desc) {
+    record ActuatorAllowIpVo(@Valid @NotNull @org.jetbrains.annotations.NotNull
+                             String ip,
+                             @Valid @NotNull @org.jetbrains.annotations.NotNull
+                             String desc
+    ) {
     }
 }

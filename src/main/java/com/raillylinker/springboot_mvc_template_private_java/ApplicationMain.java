@@ -30,7 +30,7 @@ import java.util.TimeZone;
 )
 public class ApplicationMain {
     @Bean
-    public CommandLineRunner init() {
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull CommandLineRunner init() {
         return args -> {
             // Set server time zone explicitly
             TimeZone.setDefault(TimeZone.getTimeZone(ProjectConst.SYSTEM_TIME_ZONE));
@@ -38,7 +38,7 @@ public class ApplicationMain {
         };
     }
 
-    public static void main(@Valid @NotNull String[] args) {
+    public static void main(@Valid @NotNull @org.jetbrains.annotations.NotNull String[] args) {
         SpringApplication.run(ApplicationMain.class, args);
     }
 }

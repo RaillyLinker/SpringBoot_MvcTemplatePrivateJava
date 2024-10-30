@@ -22,16 +22,23 @@ import java.util.List;
 @Component
 @Aspect
 public class MongoDbTransactionAnnotationAspect {
-    public MongoDbTransactionAnnotationAspect(@Valid @NotNull ApplicationContext applicationContext) {
+    public MongoDbTransactionAnnotationAspect(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            ApplicationContext applicationContext
+    ) {
         this.applicationContext = applicationContext;
     }
 
-    private final @Valid
-    @NotNull ApplicationContext applicationContext;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final ApplicationContext applicationContext;
 
     // MongoDb 트랜젝션용 어노테이션인 CustomMongoDbTransactional 파일의 프로젝트 경로
-    private static final @Valid
-    @NotNull String MONGO_DB_TRANSACTION_ANNOTATION_PATH =
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private static final String MONGO_DB_TRANSACTION_ANNOTATION_PATH =
             "@annotation(" + ProjectConst.PACKAGE_NAME + ".annotations.CustomMongoDbTransactional)";
 
 
@@ -39,22 +46,30 @@ public class MongoDbTransactionAnnotationAspect {
     // <AOP 작성 공간>
     // (@CustomMongoDbTransactional 를 입력한 함수 실행 전후에 MongoDB 트랜젝션 적용)
     @Around(MONGO_DB_TRANSACTION_ANNOTATION_PATH)
-    public Object aroundMongoDbTransactionAnnotationFunction(@Valid @NotNull ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object aroundMongoDbTransactionAnnotationFunction(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            ProceedingJoinPoint joinPoint
+    ) throws Throwable {
         Object proceed;
 
         // transactionManager and transactionStatus 리스트
-        @Valid @NotNull List<Pair<PlatformTransactionManager, TransactionStatus>> transactionManagerAndTransactionStatusList = new ArrayList<>();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        List<Pair<PlatformTransactionManager, TransactionStatus>> transactionManagerAndTransactionStatusList = new ArrayList<>();
 
         try {
             // annotation 에 설정된 transaction 순차 실행 및 저장
-            @Valid @NotNull MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-            @Valid @NotNull CustomMongoDbTransactional customTransactional = signature.getMethod().getAnnotation(CustomMongoDbTransactional.class);
-            for (@Valid @NotNull String transactionManagerBeanName : customTransactional.transactionManagerBeanNameList()) {
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            CustomMongoDbTransactional customTransactional = signature.getMethod().getAnnotation(CustomMongoDbTransactional.class);
+            for (@Valid @NotNull @org.jetbrains.annotations.NotNull String transactionManagerBeanName : customTransactional.transactionManagerBeanNameList()) {
                 // annotation 에 저장된 transactionManager Bean 이름으로 Bean 객체 가져오기
-                @Valid @NotNull MongoTransactionManager platformTransactionManager = (MongoTransactionManager) applicationContext.getBean(transactionManagerBeanName);
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                MongoTransactionManager platformTransactionManager = (MongoTransactionManager) applicationContext.getBean(transactionManagerBeanName);
 
                 // transaction 시작 및 정보 저장
-                @Valid @NotNull TransactionStatus transactionStatus = platformTransactionManager.getTransaction(new DefaultTransactionDefinition());
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                TransactionStatus transactionStatus = platformTransactionManager.getTransaction(new DefaultTransactionDefinition());
                 transactionManagerAndTransactionStatusList.add(new Pair<>(platformTransactionManager, transactionStatus));
             }
 
@@ -62,14 +77,16 @@ public class MongoDbTransactionAnnotationAspect {
             proceed = joinPoint.proceed();
 
             // annotation 에 설정된 transaction commit 역순 실행 및 저장
-            for (int transactionManagerIdx = transactionManagerAndTransactionStatusList.size() - 1; transactionManagerIdx >= 0; transactionManagerIdx--) {
-                @Valid @NotNull Pair<PlatformTransactionManager, TransactionStatus> transactionManager = transactionManagerAndTransactionStatusList.get(transactionManagerIdx);
+            for (@Valid @NotNull @org.jetbrains.annotations.NotNull Integer transactionManagerIdx = transactionManagerAndTransactionStatusList.size() - 1; transactionManagerIdx >= 0; transactionManagerIdx--) {
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                Pair<PlatformTransactionManager, TransactionStatus> transactionManager = transactionManagerAndTransactionStatusList.get(transactionManagerIdx);
                 transactionManager.first().commit(transactionManager.second());
             }
-        } catch (@Valid @NotNull Exception e) {
+        } catch (@Valid @NotNull @org.jetbrains.annotations.NotNull Exception e) {
             // annotation 에 설정된 transaction rollback 역순 실행 및 저장
-            for (int transactionManagerIdx = transactionManagerAndTransactionStatusList.size() - 1; transactionManagerIdx >= 0; transactionManagerIdx--) {
-                @Valid @NotNull Pair<PlatformTransactionManager, TransactionStatus> transactionManager = transactionManagerAndTransactionStatusList.get(transactionManagerIdx);
+            for (@Valid @NotNull @org.jetbrains.annotations.NotNull Integer transactionManagerIdx = transactionManagerAndTransactionStatusList.size() - 1; transactionManagerIdx >= 0; transactionManagerIdx--) {
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                Pair<PlatformTransactionManager, TransactionStatus> transactionManager = transactionManagerAndTransactionStatusList.get(transactionManagerIdx);
                 transactionManager.first().rollback(transactionManager.second());
             }
             throw e;

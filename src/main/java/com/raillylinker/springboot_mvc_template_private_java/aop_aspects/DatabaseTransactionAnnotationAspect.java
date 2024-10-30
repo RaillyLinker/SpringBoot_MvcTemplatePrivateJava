@@ -21,16 +21,23 @@ import java.util.List;
 @Component
 @Aspect
 public class DatabaseTransactionAnnotationAspect {
-    public DatabaseTransactionAnnotationAspect(@Valid @NotNull ApplicationContext applicationContext) {
+    public DatabaseTransactionAnnotationAspect(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            ApplicationContext applicationContext
+    ) {
         this.applicationContext = applicationContext;
     }
 
-    private final @Valid
-    @NotNull ApplicationContext applicationContext;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final ApplicationContext applicationContext;
 
     // DB 트랜젝션용 어노테이션인 CustomTransactional 파일의 프로젝트 경로
-    private static final @Valid
-    @NotNull String TRANSACTION_ANNOTATION_PATH =
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private static final String TRANSACTION_ANNOTATION_PATH =
             "@annotation(" + ProjectConst.PACKAGE_NAME + ".annotations.CustomTransactional)";
 
 
@@ -38,22 +45,31 @@ public class DatabaseTransactionAnnotationAspect {
     // <AOP 작성 공간>
     // (@CustomTransactional 를 입력한 함수 실행 전후에 JPA 트랜젝션 적용)
     @Around(TRANSACTION_ANNOTATION_PATH)
-    public Object aroundTransactionAnnotationFunction(@Valid @NotNull ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object aroundTransactionAnnotationFunction(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            ProceedingJoinPoint joinPoint
+    ) throws Throwable {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
         Object proceed;
 
         // transactionManager and transactionStatus 리스트
-        @Valid @NotNull List<Pair<PlatformTransactionManager, TransactionStatus>> transactionManagerAndTransactionStatusList = new ArrayList<>();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        List<Pair<PlatformTransactionManager, TransactionStatus>> transactionManagerAndTransactionStatusList = new ArrayList<>();
 
         try {
             // annotation 에 설정된 transaction 순차 실행 및 저장
-            @Valid @NotNull MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-            @Valid @NotNull CustomTransactional customTransactional = signature.getMethod().getAnnotation(CustomTransactional.class);
-            for (@Valid @NotNull String transactionManagerBeanName : customTransactional.transactionManagerBeanNameList()) {
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            CustomTransactional customTransactional = signature.getMethod().getAnnotation(CustomTransactional.class);
+            for (@Valid @NotNull @org.jetbrains.annotations.NotNull String transactionManagerBeanName : customTransactional.transactionManagerBeanNameList()) {
                 // annotation 에 저장된 transactionManager Bean 이름으로 Bean 객체 가져오기
-                @Valid @NotNull PlatformTransactionManager platformTransactionManager = (PlatformTransactionManager) applicationContext.getBean(transactionManagerBeanName);
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                PlatformTransactionManager platformTransactionManager = (PlatformTransactionManager) applicationContext.getBean(transactionManagerBeanName);
 
                 // transaction 시작 및 정보 저장
-                @Valid @NotNull TransactionStatus transactionStatus = platformTransactionManager.getTransaction(new DefaultTransactionDefinition());
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                TransactionStatus transactionStatus = platformTransactionManager.getTransaction(new DefaultTransactionDefinition());
                 transactionManagerAndTransactionStatusList.add(new Pair<>(platformTransactionManager, transactionStatus));
             }
 
@@ -62,13 +78,14 @@ public class DatabaseTransactionAnnotationAspect {
 
             // annotation 에 설정된 transaction commit 역순 실행 및 저장
             for (int transactionManagerIdx = transactionManagerAndTransactionStatusList.size() - 1; transactionManagerIdx >= 0; transactionManagerIdx--) {
-                @Valid @NotNull Pair<PlatformTransactionManager, TransactionStatus> transactionManager = transactionManagerAndTransactionStatusList.get(transactionManagerIdx);
+                @Valid @NotNull @org.jetbrains.annotations.NotNull Pair<PlatformTransactionManager, TransactionStatus> transactionManager = transactionManagerAndTransactionStatusList.get(transactionManagerIdx);
                 transactionManager.first().commit(transactionManager.second());
             }
-        } catch (@Valid @NotNull Exception e) {
+        } catch (@Valid @NotNull @org.jetbrains.annotations.NotNull Exception e) {
             // annotation 에 설정된 transaction rollback 역순 실행 및 저장
-            for (int transactionManagerIdx = transactionManagerAndTransactionStatusList.size() - 1; transactionManagerIdx >= 0; transactionManagerIdx--) {
-                @Valid @NotNull Pair<PlatformTransactionManager, TransactionStatus> transactionManager = transactionManagerAndTransactionStatusList.get(transactionManagerIdx);
+            for (@Valid @NotNull @org.jetbrains.annotations.NotNull Integer transactionManagerIdx = transactionManagerAndTransactionStatusList.size() - 1; transactionManagerIdx >= 0; transactionManagerIdx--) {
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                Pair<PlatformTransactionManager, TransactionStatus> transactionManager = transactionManagerAndTransactionStatusList.get(transactionManagerIdx);
                 transactionManager.first().rollback(transactionManager.second());
             }
             throw e;

@@ -14,7 +14,7 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
     @Override
-    public void registerWebSocketHandlers(@Valid @NotNull WebSocketHandlerRegistry registry) {
+    public void registerWebSocketHandlers(@Valid @NotNull @org.jetbrains.annotations.NotNull WebSocketHandlerRegistry registry) {
         // (Websocket 연결 url 과 핸들러 연결)
         /*
              addHandler 에서 paths 를 /ws/test 로 설정했다면,
@@ -36,8 +36,9 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     // websocket 관련 설정
     @Bean
-    public @Valid @NotNull ServletServerContainerFactoryBean createWebSocketContainer() {
-        @Valid @NotNull ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull ServletServerContainerFactoryBean createWebSocketContainer() {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
         container.setMaxTextMessageBufferSize(8192);
         container.setMaxBinaryMessageBufferSize(8192);
         return container;

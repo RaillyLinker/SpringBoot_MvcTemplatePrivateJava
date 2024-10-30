@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CustomTransactional {
-    @Valid @NotNull String[] transactionManagerBeanNameList();
+    @Valid @NotNull @org.jetbrains.annotations.NotNull String[] transactionManagerBeanNameList();
 }

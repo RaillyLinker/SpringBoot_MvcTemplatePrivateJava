@@ -9,15 +9,17 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class QueryDslConfig {
-    public QueryDslConfig(@Valid @NotNull EntityManager em) {
+    public QueryDslConfig(@Valid @NotNull @org.jetbrains.annotations.NotNull EntityManager em) {
         this.em = em;
     }
 
-    private final @Valid
-    @NotNull EntityManager em;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final EntityManager em;
 
     @Bean
-    public @Valid @NotNull JPAQueryFactory queryFactory() {
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull JPAQueryFactory queryFactory() {
         return new JPAQueryFactory(em);
     }
 }

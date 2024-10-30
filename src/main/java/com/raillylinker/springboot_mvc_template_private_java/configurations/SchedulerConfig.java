@@ -10,8 +10,12 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 @Configuration
 public class SchedulerConfig implements SchedulingConfigurer {
     @Override
-    public void configureTasks(@Valid @NotNull ScheduledTaskRegistrar taskRegistrar) {
-        @Valid @NotNull ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+    public void configureTasks(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            ScheduledTaskRegistrar taskRegistrar
+    ) {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
 
         threadPoolTaskScheduler.setPoolSize(10);
         threadPoolTaskScheduler.setThreadNamePrefix("my-scheduled-task-pool");

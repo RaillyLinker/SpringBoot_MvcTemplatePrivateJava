@@ -16,37 +16,56 @@ import java.util.List;
 public class Redis1_Map_Test extends BasicRedisMap<Redis1_Map_Test.ValueVo> {
     public Redis1_Map_Test(
             // !!!RedisConfig 종류 변경!!!
-            @Qualifier(Redis1MainConfig.REDIS_TEMPLATE_NAME) @Valid @NotNull RedisTemplate<String, String> redisTemplate
+            @Qualifier(Redis1MainConfig.REDIS_TEMPLATE_NAME)
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            RedisTemplate<String, String> redisTemplate
     ) {
         super(redisTemplate, MAP_NAME, ValueVo.class);
     }
 
     // <멤버 변수 공간>
     // !!!중복되지 않도록, 본 클래스명을 MAP_NAME 으로 설정하기!!!
-    private static final @Valid @NotNull String MAP_NAME = "Redis1_Map_Test";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private static final String MAP_NAME = "Redis1_Map_Test";
 
     // !!!본 RedisMAP 의 Value 클래스 설정!!!
     public static class ValueVo {
         public ValueVo(
                 // 기본 변수 타입 String 사용 예시
-                @Valid @NotNull String content,
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                String content,
                 // Object 변수 타입 사용 예시
-                @Valid @NotNull InnerVo innerVo,
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                InnerVo innerVo,
                 // Object List 변수 타입 사용 예시
-                @Valid @NotNull List<InnerVo> innerVoList
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                List<InnerVo> innerVoList
         ) {
             this.content = content;
             this.innerVo = innerVo;
             this.innerVoList = innerVoList;
         }
 
-        public @Valid @NotNull String content;
-        public @Valid @NotNull InnerVo innerVo;
-        public @Valid @NotNull List<InnerVo> innerVoList;
+        @Valid
+        @NotNull
+        @org.jetbrains.annotations.NotNull
+        public String content;
+        @Valid
+        @NotNull
+        @org.jetbrains.annotations.NotNull
+        public InnerVo innerVo;
+        @Valid
+        @NotNull
+        @org.jetbrains.annotations.NotNull
+        public List<InnerVo> innerVoList;
 
         public record InnerVo(
-                @Valid @NotNull String testString,
-                @Valid @NotNull Boolean testBoolean
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                String testString,
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                Boolean testBoolean
         ) {
         }
     }

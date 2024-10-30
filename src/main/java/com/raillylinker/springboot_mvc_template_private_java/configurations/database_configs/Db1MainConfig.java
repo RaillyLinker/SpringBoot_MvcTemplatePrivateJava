@@ -29,34 +29,40 @@ import java.util.HashMap;
 )
 public class Db1MainConfig {
     // !!!application.yml 의 datasource 안에 작성된 이름 할당하기!!!
-    public static final @Valid
-    @NotNull String DATABASE_CONFIG_NAME = "db1-main";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    public static final String DATABASE_CONFIG_NAME = "db1-main";
 
     // !!!data_sources/database_jpa 안의 서브 폴더(entities, repositories 를 가진 폴더)의 이름 할당하기!!!
-    public static final @Valid
-    @NotNull String DATABASE_DIRECTORY_NAME = "db1_main";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    public static final String DATABASE_DIRECTORY_NAME = "db1_main";
 
     // Database 트랜젝션을 사용할 때 사용하는 이름 변수
     // 트랜젝션을 적용할 함수 위에, @CustomTransactional 어노테이션과 결합하여,
     // @CustomTransactional([DbConfig.TRANSACTION_NAME])
     // 위와 같이 적용하세요.
-    public static final @Valid
-    @NotNull String TRANSACTION_NAME = DATABASE_DIRECTORY_NAME + "_PlatformTransactionManager";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    public static final String TRANSACTION_NAME = DATABASE_DIRECTORY_NAME + "_PlatformTransactionManager";
 
     @Value("${datasource." + DATABASE_CONFIG_NAME + ".database-platform}")
-    private @Valid
-    @NotNull String databasePlatform = "";
+    private String databasePlatform;
 
     @Bean(DATABASE_DIRECTORY_NAME + "_LocalContainerEntityManagerFactoryBean")
-    public @Valid @NotNull LocalContainerEntityManagerFactoryBean customEntityManagerFactory() {
-        @Valid @NotNull LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull LocalContainerEntityManagerFactoryBean customEntityManagerFactory() {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(customDataSource());
         em.setPackagesToScan(ProjectConst.PACKAGE_NAME + ".data_sources.jpa_beans." + DATABASE_DIRECTORY_NAME + ".entities");
 
-        @Valid @NotNull HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
 
-        @Valid @NotNull HashMap<String, Object> properties = new HashMap<>();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        HashMap<String, Object> properties = new HashMap<>();
 //        ********* 주의 : ddl-auto 설정을 바꿀 때는 극도로 주의할 것!!!!!! *********
 //        ********* 주의 : ddl-auto 설정을 바꿀 때는 극도로 주의할 것!!!!!! *********
 //        데이터베이스 초기화 전략
@@ -76,15 +82,16 @@ public class Db1MainConfig {
     }
 
     @Bean(TRANSACTION_NAME)
-    public @Valid @NotNull PlatformTransactionManager customTransactionManager() {
-        @Valid @NotNull JpaTransactionManager transactionManager = new JpaTransactionManager();
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull PlatformTransactionManager customTransactionManager() {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(customEntityManagerFactory().getObject());
         return transactionManager;
     }
 
     @Bean(DATABASE_DIRECTORY_NAME + "_DataSource")
     @ConfigurationProperties(prefix = "datasource." + DATABASE_CONFIG_NAME)
-    public @Valid @NotNull DataSource customDataSource() {
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull DataSource customDataSource() {
         return DataSourceBuilder.create().build();
     }
 }

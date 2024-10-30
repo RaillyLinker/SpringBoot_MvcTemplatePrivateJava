@@ -16,26 +16,39 @@ import java.util.List;
 public class Redis1_Map_RuntimeConfigIpList extends BasicRedisMap<Redis1_Map_RuntimeConfigIpList.ValueVo> {
     public Redis1_Map_RuntimeConfigIpList(
             // !!!RedisConfig 종류 변경!!!
-            @Qualifier(Redis1MainConfig.REDIS_TEMPLATE_NAME) @Valid @NotNull RedisTemplate<String, String> redisTemplate
+            @Qualifier(Redis1MainConfig.REDIS_TEMPLATE_NAME)
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            RedisTemplate<String, String> redisTemplate
     ) {
         super(redisTemplate, MAP_NAME, ValueVo.class);
     }
 
     // <멤버 변수 공간>
     // !!!중복되지 않도록, 본 클래스명을 MAP_NAME 으로 설정하기!!!
-    private static final @Valid @NotNull String MAP_NAME = "Redis1_Map_RuntimeConfigIpList";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private static final String MAP_NAME = "Redis1_Map_RuntimeConfigIpList";
 
     // !!!본 RedisMAP 의 Value 클래스 설정!!!
     public static class ValueVo {
-        public ValueVo(@Valid @NotNull List<IpDescVo> ipInfoList) {
+        public ValueVo(
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                List<IpDescVo> ipInfoList
+        ) {
             this.ipInfoList = ipInfoList;
         }
 
-        public @Valid @NotNull List<IpDescVo> ipInfoList;
+        @Valid
+        @NotNull
+        @org.jetbrains.annotations.NotNull
+        public List<IpDescVo> ipInfoList;
 
         public record IpDescVo(
-                @Valid @NotNull String ip,
-                @Valid @NotNull String desc
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                String ip,
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                String desc
         ) {
         }
     }

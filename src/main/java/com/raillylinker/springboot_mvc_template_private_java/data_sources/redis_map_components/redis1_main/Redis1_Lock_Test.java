@@ -12,12 +12,16 @@ import org.springframework.stereotype.Component;
 public class Redis1_Lock_Test extends BasicRedisLock {
     public Redis1_Lock_Test(
             // !!!RedisConfig 종류 변경!!!
-            @Qualifier(Redis1MainConfig.REDIS_TEMPLATE_NAME) @Valid @NotNull RedisTemplate<String, String> redisTemplate
+            @Qualifier(Redis1MainConfig.REDIS_TEMPLATE_NAME)
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            RedisTemplate<String, String> redisTemplate
     ) {
         super(redisTemplate, MAP_NAME);
     }
 
     // <멤버 변수 공간>
-    private static final @Valid
-    @NotNull String MAP_NAME = "Redis1_Lock_Test";
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private static final String MAP_NAME = "Redis1_Lock_Test";
 }

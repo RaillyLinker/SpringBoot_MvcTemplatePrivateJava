@@ -10,19 +10,29 @@ import java.util.UUID;
 
 // RedisLock 의 Abstract 클래스
 public abstract class BasicRedisLock {
-    public BasicRedisLock(@Valid @NotNull RedisTemplate<String, String> redisTemplateObj, @Valid @NotNull String mapName) {
+    public BasicRedisLock(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            RedisTemplate<String, String> redisTemplateObj,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String mapName
+    ) {
         this.redisTemplateObj = redisTemplateObj;
         this.mapName = mapName;
     }
 
-    private final @Valid
-    @NotNull RedisTemplate<String, String> redisTemplateObj;
-    private final @Valid
-    @NotNull String mapName;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final RedisTemplate<String, String> redisTemplateObj;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String mapName;
 
     // 락 획득 메소드 - Lua 스크립트 적용
-    public String tryLock(@Valid @NotNull Long expireTimeMs) {
-        @Valid @NotNull String uuid = UUID.randomUUID().toString();
+    public String tryLock(@Valid @NotNull @org.jetbrains.annotations.NotNull Long expireTimeMs) {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        String uuid = UUID.randomUUID().toString();
 
         Long scriptResult;
         if (expireTimeMs < 0) {
@@ -61,7 +71,7 @@ public abstract class BasicRedisLock {
     }
 
     // 락 해제 메소드 - Lua 스크립트 적용
-    public void unlock(@Valid @NotNull String uuid) {
+    public void unlock(@Valid @NotNull @org.jetbrains.annotations.NotNull String uuid) {
         redisTemplateObj.execute(
                 RedisScript.of(
                         "if redis.call('get', KEYS[1]) == ARGV[1] then " +

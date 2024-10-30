@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JacksonConfig {
     @Bean
-    public @Valid @NotNull Hibernate5Module hibernate5Module() {
+    public @Valid @NotNull @org.jetbrains.annotations.NotNull Hibernate5Module hibernate5Module() {
         return new Hibernate5Module();
     }
 }

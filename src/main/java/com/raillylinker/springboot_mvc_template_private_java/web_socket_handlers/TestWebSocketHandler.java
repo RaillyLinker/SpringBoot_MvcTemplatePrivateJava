@@ -21,23 +21,29 @@ import java.util.concurrent.Executors;
 // 텍스트 데이터 양방향 연결
 public class TestWebSocketHandler extends TextWebSocketHandler {
     // <멤버 변수 공간>
-    private final @Valid
-    @NotNull Logger classLogger = LoggerFactory.getLogger(this.getClass());
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final Logger classLogger = LoggerFactory.getLogger(this.getClass());
 
     // (현재 웹 소켓에 연결된 세션 리스트)
-    private final @Valid
-    @NotNull ConcurrentHashMap<String, WebSocketSession> webSocketSessionHashMap = new ConcurrentHashMap<>();
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final ConcurrentHashMap<String, WebSocketSession> webSocketSessionHashMap = new ConcurrentHashMap<>();
 
     // (스레드 풀)
-    private final @Valid
-    @NotNull ExecutorService executorService = Executors.newCachedThreadPool();
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
 
     // ---------------------------------------------------------------------------------------------
     // <공개 메소드 공간>
     // (Client 연결 콜백)
     @Override
-    public void afterConnectionEstablished(@Valid @NotNull WebSocketSession webSocketSession) {
+    public void afterConnectionEstablished(@Valid @NotNull @org.jetbrains.annotations.NotNull WebSocketSession webSocketSession) {
         // 웹 소켓 세션을 추가
         webSocketSessionHashMap.put(webSocketSession.getId(), webSocketSession);
     }
@@ -45,17 +51,29 @@ public class TestWebSocketHandler extends TextWebSocketHandler {
     // (Client 해제 콜백)
     @SuppressWarnings("resource")
     @Override
-    public void afterConnectionClosed(WebSocketSession webSocketSession, @Valid @NotNull CloseStatus status) {
+    public void afterConnectionClosed(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            WebSocketSession webSocketSession,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            CloseStatus status
+    ) {
         // 세션을 리스트에서 제거
         webSocketSessionHashMap.remove(webSocketSession.getId());
     }
 
     // (텍스트 메세지 수신 콜백)
     @Override
-    public void handleTextMessage(@Valid @NotNull WebSocketSession webSocketSession, TextMessage message) {
+    public void handleTextMessage(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            WebSocketSession webSocketSession,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            TextMessage message
+    ) {
         // 보내온 String 메세지를 객체로 해석
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
         Type messageType = new TypeToken<MessagePayloadVo>() {
         }.getType();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
         MessagePayloadVo messagePayloadVo = new Gson().fromJson(message.getPayload(), messageType);
 
         classLogger.info("messagePayloadVo : {}", messagePayloadVo);
@@ -92,7 +110,12 @@ public class TestWebSocketHandler extends TextWebSocketHandler {
          일반적으로 양방향 연결이 필요한 기능인 채팅에 관련하여,
          필요한 기능들에 필요한 형식을 미리 만들어서 제공해주는 프로토콜인 STOMP 를 사용할 수도 있습니다.
      */
-    public record MessagePayloadVo(String sender, String message) {
+    public record MessagePayloadVo(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String sender,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String message
+    ) {
         @Override
         public String toString() {
             return "MessagePayloadVo{" +
