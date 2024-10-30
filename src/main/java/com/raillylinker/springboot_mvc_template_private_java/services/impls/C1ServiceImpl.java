@@ -30,10 +30,6 @@ public class C1ServiceImpl implements C1Service {
         this.actuatorWhiteList = actuatorWhiteList;
     }
 
-    // (프로젝트 실행시 사용 설정한 프로필명 (ex : dev8080, prod80, local8080, 설정 안하면 default 반환))
-    @Value("${spring.profiles.active:default}")
-    private String activeProfile;
-
     @Valid
     @NotNull
     @org.jetbrains.annotations.NotNull

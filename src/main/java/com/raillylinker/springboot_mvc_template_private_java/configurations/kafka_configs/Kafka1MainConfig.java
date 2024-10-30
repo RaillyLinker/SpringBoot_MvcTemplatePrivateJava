@@ -24,6 +24,35 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 public class Kafka1MainConfig {
+    public Kafka1MainConfig(
+            @Value("${kafka-cluster." + KAFKA_CONFIG_NAME + ".uri}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String uri,
+            @Value("${kafka-cluster." + KAFKA_CONFIG_NAME + ".consumer.username}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String userName,
+            @Value("${kafka-cluster." + KAFKA_CONFIG_NAME + ".consumer.password}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String password
+    ) {
+        this.uri = uri;
+        this.userName = userName;
+        this.password = password;
+    }
+
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String uri;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String userName;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String password;
+
     // !!!application.yml 의 kafka-cluster 안에 작성된 이름 할당하기!!!
     @Valid
     @NotNull
@@ -38,15 +67,6 @@ public class Kafka1MainConfig {
     @NotNull
     @org.jetbrains.annotations.NotNull
     public static final String PRODUCER_BEAN_NAME = KAFKA_CONFIG_NAME + "_ProducerFactory";
-
-    @Value("${kafka-cluster." + KAFKA_CONFIG_NAME + ".uri}")
-    private String uri;
-
-    @Value("${kafka-cluster." + KAFKA_CONFIG_NAME + ".consumer.username}")
-    private String userName;
-
-    @Value("${kafka-cluster." + KAFKA_CONFIG_NAME + ".consumer.password}")
-    private String password;
 
     @Bean(CONSUMER_BEAN_NAME)
     public @Valid @NotNull @org.jetbrains.annotations.NotNull ConcurrentKafkaListenerContainerFactory<String, Object> kafkaConsumer() {

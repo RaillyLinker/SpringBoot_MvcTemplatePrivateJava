@@ -23,26 +23,41 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ActuatorEndpointFilter implements Filter {
     public ActuatorEndpointFilter(
-            @Valid @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList
     ) {
         this.redis1RuntimeConfigIpList = redis1RuntimeConfigIpList;
     }
 
     // <멤버 변수 공간>
-    private final @Valid
-    @NotNull org.slf4j.Logger classLogger = LoggerFactory.getLogger(this.getClass());
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final org.slf4j.Logger classLogger = LoggerFactory.getLogger(this.getClass());
 
     // (Redis Repository)
-    private final @Valid
-    @NotNull Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final Redis1_Map_RuntimeConfigIpList redis1RuntimeConfigIpList;
 
     @Override
-    public void doFilter(@Valid @NotNull ServletRequest request, @Valid @NotNull ServletResponse response, @Valid @NotNull FilterChain chain) throws IOException, ServletException {
-        @Valid @NotNull HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        @Valid @NotNull HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+    public void doFilter(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            ServletRequest request,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            ServletResponse response,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            FilterChain chain
+    ) throws IOException, ServletException {
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
         // 요청자 Ip (ex : 127.0.0.1)
-        @Valid @NotNull String clientAddressIp = httpServletRequest.getRemoteAddr();
+        @Valid @NotNull @org.jetbrains.annotations.NotNull
+        String clientAddressIp = httpServletRequest.getRemoteAddr();
 
 
         BasicRedisMap.RedisMapDataVo<Redis1_Map_RuntimeConfigIpList.ValueVo> actuatorAllowIpInfo = null;

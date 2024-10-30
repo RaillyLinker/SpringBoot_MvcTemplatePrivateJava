@@ -13,14 +13,36 @@ import org.springframework.context.annotation.Configuration;
 // [AWS S3 설정]
 @Configuration
 public class AwsS3Config {
-    @Value("${cloud.aws.credentials.access-key}")
-    private String accessKey;
+    public AwsS3Config(
+            @Value("${cloud.aws.credentials.access-key}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String accessKey,
+            @Value("${cloud.aws.credentials.secret-key}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String secretKey,
+            @Value("${cloud.aws.region.static}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String region
+    ) {
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.region = region;
+    }
 
-    @Value("${cloud.aws.credentials.secret-key}")
-    private String secretKey;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String accessKey;
 
-    @Value("${cloud.aws.region.static}")
-    private String region;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String secretKey;
+
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String region;
 
     @Bean
     public @Valid @NotNull @org.jetbrains.annotations.NotNull AmazonS3 amazonS3Client() {

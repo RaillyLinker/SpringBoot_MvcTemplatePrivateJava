@@ -19,15 +19,36 @@ import java.util.function.Consumer;
 
 @Configuration
 public class SwaggerConfig {
-    // <멤버 변수 공간>
-    @Value("${custom-config.swagger.document-version}")
-    private String documentVersion;
+    public SwaggerConfig(
+            @Value("${custom-config.swagger.document-version}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String documentVersion,
+            @Value("${custom-config.swagger.document-title}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String documentTitle,
+            @Value("${custom-config.swagger.document-description}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String documentDescription
+    ) {
+        this.documentVersion = documentVersion;
+        this.documentTitle = documentTitle;
+        this.documentDescription = documentDescription;
+    }
 
-    @Value("${custom-config.swagger.document-title}")
-    private String documentTitle;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String documentVersion;
 
-    @Value("${custom-config.swagger.document-description}")
-    private String documentDescription;
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String documentTitle;
+
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String documentDescription;
 
 
     // ---------------------------------------------------------------------------------------------

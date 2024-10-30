@@ -7,15 +7,23 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
-    // (Cors 설정)
-    @Value("${custom-config.cors-allow-list:}#{T(java.util.Collections).emptyList()}")
-    private List<String> corsList;
+    public WebConfig(
+            @Value("${custom-config.cors-allow-list:}#{T(java.util.Collections).emptyList()}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            List<String> corsList
+    ) {
+        this.corsList = corsList;
+    }
+
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final List<String> corsList;
 
     // [Cors 설정]
     @Override

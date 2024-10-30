@@ -22,6 +22,19 @@ import java.util.List;
 @Configuration
 @EnableCaching
 public class Redis1MainConfig {
+    public Redis1MainConfig(
+            @Value("${datasource-redis." + REDIS_CONFIG_NAME + ".node-list:#{T(java.util.Collections).emptyList()}}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            List<String> nodeList
+    ) {
+        this.nodeList = nodeList;
+    }
+
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final List<String> nodeList;
+
     // <멤버 변수 공간>
     // !!!application.yml 의 datasource-redis 안에 작성된 이름 할당하기!!!
     @Valid
@@ -33,9 +46,6 @@ public class Redis1MainConfig {
     @NotNull
     @org.jetbrains.annotations.NotNull
     public static final String REDIS_TEMPLATE_NAME = REDIS_CONFIG_NAME + "_template";
-
-    @Value("${datasource-redis." + REDIS_CONFIG_NAME + ".node-list:#{T(java.util.Collections).emptyList()}}")
-    private List<String> nodeList;
 
     // ---------------------------------------------------------------------------------------------
     @Bean(REDIS_CONFIG_NAME + "_ConnectionFactory")

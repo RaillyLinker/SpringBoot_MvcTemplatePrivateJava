@@ -28,6 +28,19 @@ import java.util.HashMap;
         transactionManagerRef = Db1MainConfig.TRANSACTION_NAME
 )
 public class Db1MainConfig {
+    public Db1MainConfig(
+            @Value("${datasource." + DATABASE_CONFIG_NAME + ".database-platform}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String databasePlatform
+    ) {
+        this.databasePlatform = databasePlatform;
+    }
+
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String databasePlatform;
+
     // !!!application.yml 의 datasource 안에 작성된 이름 할당하기!!!
     @Valid
     @NotNull
@@ -48,9 +61,6 @@ public class Db1MainConfig {
     @NotNull
     @org.jetbrains.annotations.NotNull
     public static final String TRANSACTION_NAME = DATABASE_DIRECTORY_NAME + "_PlatformTransactionManager";
-
-    @Value("${datasource." + DATABASE_CONFIG_NAME + ".database-platform}")
-    private String databasePlatform;
 
     @Bean(DATABASE_DIRECTORY_NAME + "_LocalContainerEntityManagerFactoryBean")
     public @Valid @NotNull @org.jetbrains.annotations.NotNull LocalContainerEntityManagerFactoryBean customEntityManagerFactory() {

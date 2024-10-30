@@ -18,6 +18,19 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
         mongoTemplateRef = Mdb1MainConfig.MONGO_DB_DIRECTORY_NAME
 )
 public class Mdb1MainConfig {
+    public Mdb1MainConfig(
+            @Value("${datasource-mongodb." + MONGO_DB_CONFIG_NAME + ".uri}")
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String mongoDbUri
+    ) {
+        this.mongoDbUri = mongoDbUri;
+    }
+
+    @Valid
+    @NotNull
+    @org.jetbrains.annotations.NotNull
+    private final String mongoDbUri;
+
     // !!!application.yml 의 datasource-mongodb 안에 작성된 이름 할당하기!!!
     @Valid
     @NotNull
@@ -38,10 +51,6 @@ public class Mdb1MainConfig {
     @NotNull
     @org.jetbrains.annotations.NotNull
     public static final String TRANSACTION_NAME = MONGO_DB_DIRECTORY_NAME + "_PlatformTransactionManager";
-
-    // ---------------------------------------------------------------------------------------------
-    @Value("${datasource-mongodb." + MONGO_DB_CONFIG_NAME + ".uri}")
-    private String mongoDbUri;
 
     private SimpleMongoClientDatabaseFactory mongoClientFactory;
 
