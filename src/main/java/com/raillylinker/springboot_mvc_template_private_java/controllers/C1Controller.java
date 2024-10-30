@@ -1,6 +1,5 @@
 package com.raillylinker.springboot_mvc_template_private_java.controllers;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.raillylinker.springboot_mvc_template_private_java.services.C1Service;
 import io.swagger.v3.oas.annotations.Operation;
@@ -152,50 +151,29 @@ public class C1Controller {
         service.api3InsertProjectRuntimeConfigActuatorAllowIpList(httpServletResponse, inputVo);
     }
 
-    public static class Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo {
-        @JsonCreator
-        public Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo(
+    public record Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo(
+            @Schema(
+                    description = "설정 IP 정보 리스트",
+                    example = "[{\"ip\":\"127.0.0.1\",\"desc\":\"localHost\"}]",
+                    requiredMode = Schema.RequiredMode.REQUIRED
+            )
+            @JsonProperty("ipInfoList")
+            @Valid
+            @NotNull
+            @org.jetbrains.annotations.NotNull
+            List<IpDescVo> ipInfoList
+    ) {
+        @Schema(description = "ip 설명 객체")
+        public record IpDescVo(
+                @Schema(description = "설정 ip", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
+                @JsonProperty("ip")
                 @Valid @NotNull @org.jetbrains.annotations.NotNull
-                List<IpDescVo> ipInfoList
+                String ip,
+                @Schema(description = "ip 설명", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
+                @JsonProperty("desc")
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                String desc
         ) {
-            this.ipInfoList = ipInfoList;
-        }
-
-        @Schema(
-                description = "설정 IP 정보 리스트",
-                example = "[{\"ip\":\"127.0.0.1\",\"desc\":\"localHost\"}]",
-                requiredMode = Schema.RequiredMode.REQUIRED
-        )
-        @JsonProperty("ipInfoList")
-        @Valid
-        @NotNull
-        @org.jetbrains.annotations.NotNull
-        public List<IpDescVo> ipInfoList;
-
-        public static class IpDescVo {
-            @JsonCreator
-            public IpDescVo(
-                    @Valid @NotNull @org.jetbrains.annotations.NotNull
-                    String ip,
-                    @Valid @NotNull @org.jetbrains.annotations.NotNull
-                    String desc
-            ) {
-                this.ip = ip;
-                this.desc = desc;
-            }
-
-            @Schema(description = "설정 ip", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
-            @JsonProperty("ip")
-            @Valid
-            @NotNull
-            @org.jetbrains.annotations.NotNull
-            public String ip;
-            @Schema(description = "ip 설명", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
-            @JsonProperty("desc")
-            @Valid
-            @NotNull
-            @org.jetbrains.annotations.NotNull
-            public String desc;
         }
     }
 
@@ -230,50 +208,29 @@ public class C1Controller {
         service.api4InsertProjectRuntimeConfigLoggingDenyIpList(httpServletResponse, inputVo);
     }
 
-    public static class Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo {
-        @JsonCreator
-        public Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo(
+    public record Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo(
+            @Schema(
+                    description = "설정 IP 정보 리스트",
+                    example = "[{\"ip\":\"127.0.0.1\",\"desc\":\"localHost\"}]",
+                    requiredMode = Schema.RequiredMode.REQUIRED
+            )
+            @JsonProperty("ipInfoList")
+            @Valid
+            @NotNull
+            @org.jetbrains.annotations.NotNull
+            List<IpDescVo> ipInfoList
+    ) {
+        @Schema(description = "ip 설명 객체")
+        public record IpDescVo(
+                @Schema(description = "설정 ip", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
+                @JsonProperty("ip")
                 @Valid @NotNull @org.jetbrains.annotations.NotNull
-                List<IpDescVo> ipInfoList
+                String ip,
+                @Schema(description = "ip 설명", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
+                @JsonProperty("desc")
+                @Valid @NotNull @org.jetbrains.annotations.NotNull
+                String desc
         ) {
-            this.ipInfoList = ipInfoList;
-        }
-
-        @Schema(
-                description = "설정 IP 정보 리스트",
-                example = "[{\"ip\":\"127.0.0.1\",\"desc\":\"localHost\"}]",
-                requiredMode = Schema.RequiredMode.REQUIRED
-        )
-        @JsonProperty("ipInfoList")
-        @Valid
-        @NotNull
-        @org.jetbrains.annotations.NotNull
-        public List<IpDescVo> ipInfoList;
-
-        public static class IpDescVo {
-            @JsonCreator
-            public IpDescVo(
-                    @Valid @NotNull @org.jetbrains.annotations.NotNull
-                    String ip,
-                    @Valid @NotNull @org.jetbrains.annotations.NotNull
-                    String desc
-            ) {
-                this.ip = ip;
-                this.desc = desc;
-            }
-
-            @Schema(description = "설정 ip", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
-            @JsonProperty("ip")
-            @Valid
-            @NotNull
-            @org.jetbrains.annotations.NotNull
-            public String ip;
-            @Schema(description = "ip 설명", example = "testing", requiredMode = Schema.RequiredMode.REQUIRED)
-            @JsonProperty("desc")
-            @Valid
-            @NotNull
-            @org.jetbrains.annotations.NotNull
-            public String desc;
         }
     }
 }

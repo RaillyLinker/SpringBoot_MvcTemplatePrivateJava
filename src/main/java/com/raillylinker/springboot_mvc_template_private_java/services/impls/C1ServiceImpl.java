@@ -122,10 +122,10 @@ public class C1ServiceImpl implements C1Service {
         @Valid @NotNull @org.jetbrains.annotations.NotNull
         List<ActuatorWhiteList.ActuatorAllowIpVo> actuatorAllowIpVoList = new ArrayList<>();
 
-        for (C1Controller.Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo.IpDescVo ipDescInfo : inputVo.ipInfoList) {
+        for (C1Controller.Api3InsertProjectRuntimeConfigActuatorAllowIpListInputVo.IpDescVo ipDescInfo : inputVo.ipInfoList()) {
             actuatorAllowIpVoList.add(new ActuatorWhiteList.ActuatorAllowIpVo(
-                    ipDescInfo.ip,
-                    ipDescInfo.desc
+                    ipDescInfo.ip(),
+                    ipDescInfo.desc()
             ));
         }
 
@@ -144,10 +144,10 @@ public class C1ServiceImpl implements C1Service {
         @Valid @NotNull @org.jetbrains.annotations.NotNull
         List<Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo> ipDescVoList = new ArrayList<>();
 
-        for (C1Controller.Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo.IpDescVo ipDescInfo : inputVo.ipInfoList) {
+        for (C1Controller.Api4InsertProjectRuntimeConfigLoggingDenyIpListInputVo.IpDescVo ipDescInfo : inputVo.ipInfoList()) {
             ipDescVoList.add(new Redis1_Map_RuntimeConfigIpList.ValueVo.IpDescVo(
-                    ipDescInfo.ip,
-                    ipDescInfo.desc
+                    ipDescInfo.ip(),
+                    ipDescInfo.desc()
             ));
         }
 
