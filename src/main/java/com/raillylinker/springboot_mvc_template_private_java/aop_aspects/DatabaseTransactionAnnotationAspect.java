@@ -1,6 +1,7 @@
 package com.raillylinker.springboot_mvc_template_private_java.aop_aspects;
 
 import com.raillylinker.springboot_mvc_template_private_java.annotations.CustomTransactional;
+import com.raillylinker.springboot_mvc_template_private_java.classes.Pair;
 import com.raillylinker.springboot_mvc_template_private_java.data_sources.const_objects.ProjectConst;
 import jakarta.validation.Valid;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -92,9 +93,5 @@ public class DatabaseTransactionAnnotationAspect {
         }
 
         return proceed; // 결과 리턴
-    }
-
-    // Pair 클래스 정의
-    private record Pair<K, V>(K first, V second) {
     }
 }

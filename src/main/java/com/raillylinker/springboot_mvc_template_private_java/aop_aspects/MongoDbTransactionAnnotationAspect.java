@@ -1,6 +1,7 @@
 package com.raillylinker.springboot_mvc_template_private_java.aop_aspects;
 
 import com.raillylinker.springboot_mvc_template_private_java.annotations.CustomMongoDbTransactional;
+import com.raillylinker.springboot_mvc_template_private_java.classes.Pair;
 import com.raillylinker.springboot_mvc_template_private_java.data_sources.const_objects.ProjectConst;
 import jakarta.validation.Valid;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -93,20 +94,5 @@ public class MongoDbTransactionAnnotationAspect {
         }
 
         return proceed; // 결과 리턴
-    }
-
-
-    // ---------------------------------------------------------------------------------------------
-    // <공개 메소드 공간>
-
-
-    // ---------------------------------------------------------------------------------------------
-    // <비공개 메소드 공간>
-
-
-    // ---------------------------------------------------------------------------------------------
-    // <중첩 클래스 공간>
-    // Pair 클래스 정의
-    private record Pair<K, V>(K first, V second) {
     }
 }
