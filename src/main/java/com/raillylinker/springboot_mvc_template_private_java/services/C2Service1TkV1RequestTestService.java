@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface C2Service1TkV1RequestTestService {
@@ -88,24 +89,24 @@ public interface C2Service1TkV1RequestTestService {
     );
 
 
-//    // (Post 요청 테스트 (x-www-form-urlencoded))
-//    C2Service1TkV1RequestTestController.Api7PostRequestTestWithFormTypeRequestBodyOutputVo api7PostRequestTestWithFormTypeRequestBody(
-//            @Valid @NotNull @org.jetbrains.annotations.NotNull
-//            HttpServletResponse httpServletResponse,
-//            @Valid @NotNull @org.jetbrains.annotations.NotNull
-//            C2Service1TkV1RequestTestController.Api7PostRequestTestWithFormTypeRequestBodyInputVo inputVo
-//    );
-//
-//
-//    // (Post 요청 테스트 (multipart/form-data))
-//    C2Service1TkV1RequestTestController.Api8PostRequestTestWithMultipartFormTypeRequestBodyOutputVo api8PostRequestTestWithMultipartFormTypeRequestBody(
-//            @Valid @NotNull @org.jetbrains.annotations.NotNull
-//            HttpServletResponse httpServletResponse,
-//            @Valid @NotNull @org.jetbrains.annotations.NotNull
-//            C2Service1TkV1RequestTestController.Api8PostRequestTestWithMultipartFormTypeRequestBodyInputVo inputVo
-//    );
-//
-//
+    // (Post 요청 테스트 (x-www-form-urlencoded))
+    C2Service1TkV1RequestTestController.Api7PostRequestTestWithFormTypeRequestBodyOutputVo api7PostRequestTestWithFormTypeRequestBody(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            HttpServletResponse httpServletResponse,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            C2Service1TkV1RequestTestController.Api7PostRequestTestWithFormTypeRequestBodyInputVo inputVo
+    );
+
+
+    // (Post 요청 테스트 (multipart/form-data))
+    C2Service1TkV1RequestTestController.Api8PostRequestTestWithMultipartFormTypeRequestBodyOutputVo api8PostRequestTestWithMultipartFormTypeRequestBody(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            HttpServletResponse httpServletResponse,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            C2Service1TkV1RequestTestController.Api8PostRequestTestWithMultipartFormTypeRequestBodyInputVo inputVo
+    ) throws IOException;
+
+
 //    // (Post 요청 테스트2 (multipart/form-data))
 //    C2Service1TkV1RequestTestController.Api9PostRequestTestWithMultipartFormTypeRequestBody2OutputVo api9PostRequestTestWithMultipartFormTypeRequestBody2(
 //            @Valid @NotNull @org.jetbrains.annotations.NotNull

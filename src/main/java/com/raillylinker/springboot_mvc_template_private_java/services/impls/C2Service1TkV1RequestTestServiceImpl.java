@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -177,6 +178,116 @@ public class C2Service1TkV1RequestTestServiceImpl implements C2Service1TkV1Reque
     @Override
     public void api6Dot2PostRequestTestWithNoInputAndOutput(@org.jetbrains.annotations.NotNull HttpServletResponse httpServletResponse) {
         httpServletResponse.setStatus(HttpStatus.OK.value());
+    }
+
+    @Override
+    public C2Service1TkV1RequestTestController.Api7PostRequestTestWithFormTypeRequestBodyOutputVo api7PostRequestTestWithFormTypeRequestBody(@org.jetbrains.annotations.NotNull HttpServletResponse httpServletResponse, @org.jetbrains.annotations.NotNull C2Service1TkV1RequestTestController.Api7PostRequestTestWithFormTypeRequestBodyInputVo inputVo) {
+        httpServletResponse.setStatus(HttpStatus.OK.value());
+        return new C2Service1TkV1RequestTestController.Api7PostRequestTestWithFormTypeRequestBodyOutputVo(
+                inputVo.requestFormString(),
+                inputVo.requestFormStringNullable(),
+                inputVo.requestFormInt(),
+                inputVo.requestFormIntNullable(),
+                inputVo.requestFormDouble(),
+                inputVo.requestFormDoubleNullable(),
+                inputVo.requestFormBoolean(),
+                inputVo.requestFormBooleanNullable(),
+                inputVo.requestFormStringList(),
+                inputVo.requestFormStringListNullable()
+        );
+    }
+
+    @Override
+    public C2Service1TkV1RequestTestController.Api8PostRequestTestWithMultipartFormTypeRequestBodyOutputVo api8PostRequestTestWithMultipartFormTypeRequestBody(@org.jetbrains.annotations.NotNull HttpServletResponse httpServletResponse, @org.jetbrains.annotations.NotNull C2Service1TkV1RequestTestController.Api8PostRequestTestWithMultipartFormTypeRequestBodyInputVo inputVo) throws IOException {
+        // 파일 저장 기본 디렉토리 경로
+        Path saveDirectoryPath = Paths.get("./by_product_files/test").toAbsolutePath().normalize();
+
+        // 파일 저장 기본 디렉토리 생성
+        Files.createDirectories(saveDirectoryPath);
+
+        // 원본 파일명(with suffix)
+        String multiPartFileNameString = inputVo.multipartFile().getOriginalFilename();
+        if (multiPartFileNameString == null) {
+            throw new IOException("MultipartFile의 원본 파일명이 null입니다.");
+        }
+
+        multiPartFileNameString = org.springframework.util.StringUtils.cleanPath(multiPartFileNameString);
+
+        // 파일 확장자 구분 위치
+        int fileExtensionSplitIdx = multiPartFileNameString.lastIndexOf('.');
+
+        // 확장자가 없는 파일명 및 확장자
+        String fileNameWithOutExtension;
+        String fileExtension;
+
+        if (fileExtensionSplitIdx == -1) {
+            fileNameWithOutExtension = multiPartFileNameString;
+            fileExtension = "";
+        } else {
+            fileNameWithOutExtension = multiPartFileNameString.substring(0, fileExtensionSplitIdx);
+            fileExtension = multiPartFileNameString.substring(fileExtensionSplitIdx + 1);
+        }
+
+        // multipartFile을 targetPath에 저장
+        inputVo.multipartFile().transferTo(
+                saveDirectoryPath.resolve(
+                        String.format("%s(%s).%s",
+                                fileNameWithOutExtension,
+                                LocalDateTime.now().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy_MM_dd_'T'_HH_mm_ss_SSS_z")),
+                                fileExtension
+                        )
+                ).normalize()
+        );
+
+        if (inputVo.multipartFileNullable() != null) {
+            // 원본 파일명(with suffix)
+            String multiPartFileNullableNameString = inputVo.multipartFileNullable().getOriginalFilename();
+            if (multiPartFileNullableNameString == null) {
+                throw new IOException("Nullable MultipartFile의 원본 파일명이 null입니다.");
+            }
+
+            multiPartFileNullableNameString = org.springframework.util.StringUtils.cleanPath(multiPartFileNullableNameString);
+
+            // 파일 확장자 구분 위치
+            int nullableFileExtensionSplitIdx = multiPartFileNullableNameString.lastIndexOf('.');
+
+            // 확장자가 없는 파일명 및 확장자
+            String nullableFileNameWithOutExtension;
+            String nullableFileExtension;
+
+            if (nullableFileExtensionSplitIdx == -1) {
+                nullableFileNameWithOutExtension = multiPartFileNullableNameString;
+                nullableFileExtension = "";
+            } else {
+                nullableFileNameWithOutExtension = multiPartFileNullableNameString.substring(0, nullableFileExtensionSplitIdx);
+                nullableFileExtension = multiPartFileNullableNameString.substring(nullableFileExtensionSplitIdx + 1);
+            }
+
+            // multipartFile을 targetPath에 저장
+            inputVo.multipartFileNullable().transferTo(
+                    saveDirectoryPath.resolve(
+                            String.format("%s(%s).%s",
+                                    nullableFileNameWithOutExtension,
+                                    LocalDateTime.now().atZone(ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyy_MM_dd_'T'_HH_mm_ss_SSS_z")),
+                                    nullableFileExtension
+                            )
+                    ).normalize()
+            );
+        }
+
+        httpServletResponse.setStatus(HttpStatus.OK.value());
+        return new C2Service1TkV1RequestTestController.Api8PostRequestTestWithMultipartFormTypeRequestBodyOutputVo(
+                inputVo.requestFormString(),
+                inputVo.requestFormStringNullable(),
+                inputVo.requestFormInt(),
+                inputVo.requestFormIntNullable(),
+                inputVo.requestFormDouble(),
+                inputVo.requestFormDoubleNullable(),
+                inputVo.requestFormBoolean(),
+                inputVo.requestFormBooleanNullable(),
+                inputVo.requestFormStringList(),
+                inputVo.requestFormStringListNullable()
+        );
     }
 
 }
