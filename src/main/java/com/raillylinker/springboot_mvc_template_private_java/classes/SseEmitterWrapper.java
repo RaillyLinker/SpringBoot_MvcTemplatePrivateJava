@@ -169,7 +169,12 @@ public class SseEmitterWrapper {
     }
 
     // (저장된 모든 emitter 에 이벤트 발송)
-    public void broadcastEvent(String eventName, String eventMessage) {
+    public void broadcastEvent(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String eventName,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String eventMessage
+    ) {
         for (var emitter : emitterMap.entrySet()) { // 저장된 모든 emitter 에 발송 (필터링 하려면 emitter.key 에 저장된 정보로 필터링 가능)
             executorService.execute(() -> {
                 // 발송 시간
@@ -197,7 +202,14 @@ public class SseEmitterWrapper {
     }
 
     // (memberUidSet 에 속하는 모든 emitter 에 이벤트 발송)
-    public void sendEventToMemberSet(String eventName, String eventMessage, Set<Long> memberUidSet) {
+    public void sendEventToMemberSet(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String eventName,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String eventMessage,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            Set<Long> memberUidSet
+    ) {
         for (var emitter : emitterMap.entrySet()) { // 저장된 모든 emitter 에 발송 (필터링 하려면 emitter.key 에 저장된 정보로 필터링 가능)
             executorService.execute(() -> {
                 // emitterId (멤버고유번호(비회원은 "null")_객체 아이디 발행일_발행총개수) 에서 memberUid 추출
@@ -235,7 +247,13 @@ public class SseEmitterWrapper {
     }
 
     // (memberUid(비회원은 null) 에 속하는 emitter 에 이벤트 발송)
-    public void sendEventToMember(String eventName, String eventMessage, Long memberUid) {
+    public void sendEventToMember(
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String eventName,
+            @Valid @NotNull @org.jetbrains.annotations.NotNull
+            String eventMessage,
+            Long memberUid
+    ) {
         for (var emitter : emitterMap.entrySet()) { // 저장된 모든 emitter 에 발송 (필터링 하려면 emitter.key 에 저장된 정보로 필터링 가능)
             executorService.execute(() -> {
                 // emitterId (멤버고유번호(비회원은 "null")_객체 아이디 발행일_발행총개수) 에서 memberUid 추출
